@@ -1,0 +1,105 @@
+
+@font-face {
+    font-family: Inter;
+    src: url(../fonts/Inter/Inter-VariableFont_slnt\,wght.ttf)
+}
+
+
+body {
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Стиль ссылкам в header  */
+header {
+    border-bottom: 1px solid #757575;
+    width: 100%;
+}
+.links a{
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 16px;
+    padding-left: 20px;
+    color: #9A9A9A;
+    transition: color 0.4s ease;
+}
+.links a{
+    text-decoration: none;
+}
+.links {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 4px;
+}
+.links a:hover{
+    color: black;
+}
+
+/* Стиль логоптипу */
+
+.logo img {
+    width: 200px;
+}
+.logo {
+    padding-right: 30px;
+}
+.block_functional {
+    padding: 20px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.form_search {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    
+}
+
+.form_search input{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 600px;
+    background-color: #D9D9D9;
+    font-family: Inter;
+    font-size: 15px;
+    padding-left: 30px;
+}
+
+.form_search input::placeholder{
+    font-family: Inter;
+    font-size: 15px;
+    margin-left: 20px;
+}
+
+.form_search input:focus {
+    outline: none;
+    border-color: #eb5bb1;
+    background-color: #f0f0f0;
+}
+
+
+.form_search button {
+    width: 150px;
+    margin-left: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #eb5bb1;
+    background-color: white;
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 18px;
+    transition:  0.4s ease;
+}
+
+.form_search button:hover {
+    border: 1px solid #d97bb4;
+    background-color: #f0f0f0;
+    color: #eb5bb1;
+    font-family: Inter;
+    font-weight: 300;
+}

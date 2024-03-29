@@ -1,6 +1,13 @@
 from django.shortcuts import render
-
-# Create your views here.
+from .forms import *
 
 def main_page(request):
-    return render(request, "main.html")
+    if request.method == 'GET':
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            return render(request, "main.html", {'result': query})
+        else:
+            form = SearchForm()
+    return render(request, "main.html", {'form': form})
+
