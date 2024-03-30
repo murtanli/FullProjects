@@ -37,7 +37,7 @@ header {
     color: black;
 }
 
-/* Стиль логоптипу */
+/* Стиль логоптипа */
 
 .logo img {
     width: 200px;
@@ -45,15 +45,19 @@ header {
 .logo {
     padding-right: 30px;
 }
+
+/* Стиль блока поиска с кнопкой */
 .block_functional {
     padding: 20px;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
+    
 }
 
 .form_search {
     display: flex;
+    flex-grow: 1;
     flex-wrap: nowrap;
     align-items: center;
     
@@ -102,4 +106,115 @@ header {
     color: #eb5bb1;
     font-family: Inter;
     font-weight: 300;
+}
+
+
+/* стиль логотипов корзины и профиля */
+
+.links_block {
+    margin-left: 10%;
+}
+
+.links_block a{
+    text-decoration: none;
+}
+.links_block img {
+    width: 50px;
+    margin-left: 100px;
+}
+
+
+/* Стиль блока с ссылками на акции */
+.links_sale {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.links_sale a{
+    text-decoration: none;
+    color: black;
+    font-family: Inter;
+    font-size: 17px;
+    padding: 20px;
+    font-weight: 500;
+    transition:  0.4s ease;
+}
+
+.links_sale a:hover{
+    color: #eb5bb1;
+}
+
+/* Стиль блока контента */
+.content{
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+
+/* Стиль блока футер */
+footer {
+    height: 200px;
+    background-color: #CCCCCC;
+    border-top: 10px solid #E3E3E3;
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 50px 50px;
+    gap: 120px;
+}
+
+.logo_footer img{
+    width: 200px;
+}
+.logo_footer p{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 600;
+    color: #525252;
+}
+
+.info {
+    width: 150px;
+    font-family: Inter;
+    margin-bottom: 100px;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.info p{
+    font-size: 18px;
+    font-weight: 600;
+}
+.info a{
+    text-decoration: none;
+    color: #525252;
+    font-weight: 500;
+    transition:  0.4s ease;
+    margin-bottom: 15px;
+}
+.info a:hover{
+    color: #eb5bb1;
+}
+
+.social_links {
+    display: flex;
+    width: 200px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.social_links img, .social_links a{
+    width: 50px;
+    height: 50px;
+}
+.social_links a{
+    margin-top: -16px;
+}
+
+.social_links p{
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.social_links, .info {
+    margin-left: 200px;
 }
