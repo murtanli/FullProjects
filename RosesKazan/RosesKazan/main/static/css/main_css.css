@@ -72,6 +72,7 @@ header {
     font-family: Inter;
     font-size: 15px;
     padding-left: 30px;
+    transition:  0.4s ease;
 }
 
 .form_search input::placeholder{
@@ -85,7 +86,11 @@ header {
     border-color: #eb5bb1;
     background-color: #f0f0f0;
 }
-
+.form_search input:hover {
+    outline: none;
+    border-color: #eb5bb1;
+    background-color: #f0f0f0;
+}
 
 .form_search button {
     width: 150px;
@@ -119,7 +124,7 @@ header {
     text-decoration: none;
 }
 .links_block img {
-    width: 50px;
+    width: 40px;
     margin-left: 100px;
 }
 
@@ -146,10 +151,24 @@ header {
 }
 
 /* Стиль блока контента */
-.content{
-    margin-top: 200px;
-    margin-bottom: 200px;
+.stocks_blocks{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 30px;
 }
+.stocks {
+    margin-top: 120px;
+    margin-bottom: 200px;
+    padding-left: 300px;
+    padding-right: 300px;
+}
+.stocks_title{
+    font-family: Inter;
+    font-size: 25px;
+    font-weight: 400;
+}
+
 
 /* Стиль блока футер */
 footer {

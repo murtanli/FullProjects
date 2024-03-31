@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+{% load static %}
+
+
+{% block ad %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/ad_css.css' %}">
+</head>
+<div class="block_ad">
+    
+    <a href="">
+        <img src="{% static 'images/ad.png' %}" alt="">
+        <p>Не знаете что подарить своей девушке ? 
+            Собери букет который ей точно понравится !</p>
+    </a>
+</div>
+{% endblock %}
+
+
+{% block stocks %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/stocks_css.css' %}">
+</head>
+
+
+
+{% for flower in flowers %}
+    <div class="flower_block">
+        <img src="{% static 'images/flower.jpg' %}" alt="">
+        <p class="title_flower">
+            Композиция из Хризантем
+        </p>
+        <div class="flower_info">
+            <p class="flower_price">Цена - 1200 руб</p>
+            <button>Заказать</button>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}
+
+{% block roses %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/stocks_css.css' %}">
+</head>
+{% for flower in flowers %}
+    <div class="flower_block">
+        <img src="{% static 'images/flower.jpg' %}" alt="">
+        <p class="title_flower">
+            Композиция из Хризантем
+        </p>
+        <div class="flower_info">
+            <p class="flower_price">Цена - 1200 руб</p>
+            <button>Заказать</button>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
