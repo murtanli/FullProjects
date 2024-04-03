@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
-
+{% load custom_filters %}
 
 {% block ad %}
 <head>
@@ -17,25 +17,30 @@
 {% endblock %}
 
 
-{% block stocks %}
+{% block flowers %}
 <head>
     <link rel="stylesheet" href="{% static 'css/stocks_css.css' %}">
 </head>
+<p class="stocks_title">Цветы</p>
 
-
-
-{% for flower in flowers %}
-    <div class="flower_block">
-        <img src="{% static 'images/flower.jpg' %}" alt="">
+<div class="stocks_blocks">
+    {% for flower in flowers %}
+    <a href="" class="flower_block">
+        <img src="{% url 'get_flower_image' flower_id=flower.id %}" alt="Flower Image">
         <p class="title_flower">
-            Композиция из Хризантем
+
+            {{ flower.name }}
+
         </p>
         <div class="flower_info">
-            <p class="flower_price">Цена - 1200 руб</p>
+            <p class="flower_avail">Всего - {{ flower.free_flowers }}</p>
+            <p class="flower_price">Цена - {{ flower.price|spacecomma }} руб</p>
             <button>Заказать</button>
         </div>
-    </div>
+    </a>
 {% endfor %}
+</div>
+
 
 {% endblock %}
 
@@ -43,15 +48,18 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/stocks_css.css' %}">
 </head>
+<p class="stocks_title">Розы</p>
 {% for flower in flowers %}
-    <div class="flower_block">
-        <img src="{% static 'images/flower.jpg' %}" alt="">
-        <p class="title_flower">
-            Композиция из Хризантем
-        </p>
-        <div class="flower_info">
-            <p class="flower_price">Цена - 1200 руб</p>
-            <button>Заказать</button>
+    <div class="stocks_blocks">
+        <div class="flower_block">
+            <img src="{% static 'images/flower.jpg' %}" alt="">
+            <p class="title_flower">
+                Композиция из Хризантем
+            </p>
+            <div class="flower_info">
+                <p class="flower_price">Цена - 1200 руб</p>
+                <button>Заказать</button>
+            </div>
         </div>
     </div>
 {% endfor %}

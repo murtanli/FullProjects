@@ -21,21 +21,23 @@
         </div>
         <div class="block_functional">
             <div class="logo">
-                <img src="{% static 'images/logo.svg' %}" alt="">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.svg' %}" alt="">
+                </a>
             </div>
             <div class="search_block">
-                <form class="form_search" method="get" action="{% url 'search_results' %}">
+                <form class="form_search" method="get" action="{% url 'home' %}">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit">Поиск</button>
                 </form>
             </div>
             <div class="links_block">
-                <a href="{% url 'search_results' %}">
+                <a href="{% url 'home' %}">
                     <img class="links_block_img1" src="{% static 'images/shopping_cart.png' %}" alt="">
                 </a>
 
-                <a href="{% url 'search_results' %}">
+                <a href="{% url 'home' %}">
                     <img class="links_block_img2" src="{% static 'images/profile_icon.png' %}" alt="">
                 </a>
             </div>
@@ -63,22 +65,22 @@
     </header>
     
     <div class="ad">
+        
         {% block ad %}
         {% endblock %}
     </div>
 
     <div class="stocks">
-        <p class="stocks_title">Акции</p>
-        <div class="stocks_blocks">
-            {% block stocks %}
-            {% endblock %}
-        </div>
-        <p class="stocks_title">Розы</p>
-        <div class="stocks_blocks">
-            {% block roses %}
-            {% endblock %}
-        </div>
-        
+        {% block flowers %}
+        {% endblock %}
+    
+        {% block roses %}
+        {% endblock %}
+    </div>
+
+    <div class="results_block">
+        {% block results %}
+        {% endblock %}  
     </div>
 
     <footer>
