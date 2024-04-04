@@ -21,7 +21,7 @@
 <head>
     <link rel="stylesheet" href="{% static 'css/stocks_css.css' %}">
 </head>
-<p class="stocks_title">Цветы</p>
+<p class="stocks_title">Все букеты</p>
 
 <div class="stocks_blocks">
     {% for flower in flowers %}
@@ -33,7 +33,7 @@
 
         </p>
         <div class="flower_info">
-            <p class="flower_avail">Всего - {{ flower.free_flowers }}</p>
+            <p class="flower_avail">Всего - {{ flower.free_flowers }} штук</p>
             <p class="flower_price">Цена - {{ flower.price|spacecomma }} руб</p>
             <button>Заказать</button>
         </div>
@@ -49,18 +49,44 @@
     <link rel="stylesheet" href="{% static 'css/stocks_css.css' %}">
 </head>
 <p class="stocks_title">Розы</p>
-{% for flower in flowers %}
-    <div class="stocks_blocks">
-        <div class="flower_block">
-            <img src="{% static 'images/flower.jpg' %}" alt="">
-            <p class="title_flower">
-                Композиция из Хризантем
-            </p>
-            <div class="flower_info">
-                <p class="flower_price">Цена - 1200 руб</p>
-                <button>Заказать</button>
+{% for rose in roses %}
+    {% if rose.category == "Розы" %}
+        <div class="stocks_blocks">
+            <div class="flower_block">
+                <img src="{% url 'get_flower_image' flower_id=rose.id %}" alt="Flower Image">
+                <p class="title_flower">
+                    {{ rose.name }}
+                </p>
+                <div class="flower_info">
+                    <p class="flower_avail">Всего - {{ flower.free_flowers }} штук</p>
+                    <p class="flower_price">Цена - {{ flower.price|spacecomma }} руб</p>
+                    <button>Заказать</button>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
+{% endfor %}
+{% endblock %}
+{% block chrysanthemums %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/stocks_css.css' %}">
+</head>
+<p class="stocks_title">Хризантемы</p>
+{% for chrysanthemum in chrysanthemums %}
+    {% if chrysanthemum.category == "Хризантемы" %}
+        <div class="stocks_blocks">
+            <div class="flower_block">
+                <img src="{% url 'get_flower_image' flower_id=chrysanthemum.id %}" alt="Flower Image">
+                <p class="title_flower">
+                    {{ chrysanthemum.name }}
+                </p>
+                <div class="flower_info">
+                    <p class="flower_avail">Всего - {{ chrysanthemum.free_flowers }} штук</p>
+                    <p class="flower_price">Цена - {{ chrysanthemum.price|spacecomma }} руб</p>
+                    <button>Заказать</button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endfor %}
 {% endblock %}

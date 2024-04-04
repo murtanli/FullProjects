@@ -9,21 +9,23 @@
 <div class="stocks_blocks">
     {% if not flowers %}
         <p class="none_title">По данному запросу ничего не найдено</p>
-        
     {% else %}
-        {% for flower in flowers %}
-            <a href="" class="flower_block">
-                <img src="{% url 'get_flower_image' flower_id=flower.id %}" alt="Flower Image">
-                <p class="title_flower">
-                    {{ flower.name }}
-                </p>
-                <div class="flower_info">
-                    <p class="flower_avail">Всего - {{ flower.free_flowers }}</p>
-                    <p class="flower_price">Цена - {{ flower.price|spacecomma }} руб</p>
-                    <button>Заказать</button>
-                </div>
-            </a>
-        {% endfor %}
+    {% for flower in flowers %}
+    {% if flower.id %}
+        <a href="" class="flower_block">
+            <img src="{% url 'get_flower_image' flower_id=flower.id %}" alt="Flower Image">
+            <p class="title_flower">
+                {{ flower.name }}
+            </p>
+            <div class="flower_info">
+                <p class="flower_avail">Всего - {{ flower.free_flowers }}</p>
+                <p class="flower_price">Цена - {{ flower.price|spacecomma }} руб</p>
+                <button>Заказать</button>
+            </div>
+        </a>
+    {% endif %}
+{% endfor %}
+
     {% endif %}
 </div>
 {% endblock %}

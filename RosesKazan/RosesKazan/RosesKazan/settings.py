@@ -71,6 +71,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'RosesKazan.wsgi.application'
 
 
