@@ -18,6 +18,11 @@ class Flowers(models.Model):
     image_url = models.URLField(blank=True, null=True)
     price = models.FloatField(null=True, blank=True)
     category = models.CharField(max_length=20, null=True, blank=True)
+
+class Discount(models.Model):
+    flower = models.ForeignKey(Flowers, models.CASCADE)
+    discount_price = models.FloatField(null=True, blank=True)
+
 class Orders(models.Model):
     status_list = (
         ('В сборке', 'В сборке'),

@@ -90,3 +90,22 @@
     {% endif %}
 {% endfor %}
 {% endblock %}
+
+{% block disounts %}
+<p class="stocks_title">Скидки</p>
+{% for discount in discounts %}
+    <div class="stocks_blocks">
+        <div class="flower_block">
+            <img src="{% url 'get_flower_image' flower_id=discount.flower.id %}" alt="Flower Image">
+            <p class="title_flower">
+                {{ discount.flower.name }}
+            </p>
+            <div class="flower_info">
+                <p class="flower_avail">Всего - {{ discount.flower.free_flowers }} штук</p>
+                <p class="flower_price">Цена - {{ discount.discount_price|spacecomma }} руб</p>
+                <button>Заказать</button>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

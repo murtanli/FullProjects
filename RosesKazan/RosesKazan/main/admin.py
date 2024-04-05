@@ -7,6 +7,10 @@ from .models import *
 class UsersAdmin(admin.ModelAdmin):
     list_display = ('pk', 'login', 'password')
 
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'flower', 'discount_price')
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('pk','user', 'name', 'lastname', 'email')
