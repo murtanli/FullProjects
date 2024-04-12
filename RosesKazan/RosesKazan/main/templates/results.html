@@ -20,7 +20,11 @@
             <div class="flower_info">
                 <p class="flower_avail">Всего - {{ flower.free_flowers }}</p>
                 <p class="flower_price">Цена - {{ flower.price|spacecomma }} руб</p>
-                <button>Заказать</button>
+                {% if request.user.is_authenticated %}
+                    <button >Заказать</button>
+                {% else %}
+                    <button onclick="alert_reg()">Заказать</button>
+                {% endif %}
             </div>
         </a>
     {% endif %}
@@ -28,4 +32,9 @@
 
     {% endif %}
 </div>
+<script>
+    function alert_reg() {
+        alert('Зарегестрируйтесь чтобы заказать')
+    }
+</script>
 {% endblock %}

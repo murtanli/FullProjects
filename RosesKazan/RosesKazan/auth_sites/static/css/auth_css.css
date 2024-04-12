@@ -1,0 +1,170 @@
+@font-face {
+    font-family: Inter;
+    src: url(../fonts/Inter/Inter-VariableFont_slnt\,wght.ttf)
+}
+
+body {
+    background-color: #FFE2FA;
+}
+
+.auth_block{
+    display: flex;
+    justify-content: center;
+
+}
+
+.form_auth{
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    width: 400px;
+    height: 70vh;
+    max-height: 600px;
+    min-height: 550px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
+
+.logo img{
+    margin-top: 5vh;
+    margin-bottom: 10vh;
+    width: 250px;
+}
+
+.auth_form{
+    margin-top: -100px;
+}
+
+.auth_form input{
+    border: none;
+}
+
+.auth_form input{
+    padding: 10px;
+    border-bottom: 1px solid #A3A3A3;
+    width: 300px;
+    background-color: #ffffff;
+    font-family: Inter;
+    font-size: 15px;
+    padding-left: 3px;
+    transition:  0.4s ease;
+    margin-bottom: 50px;
+}
+
+.auth_form input::placeholder{
+    font-family: Inter;
+    font-size: 15px;
+    text-align: left;
+    
+}
+
+.auth_form input:focus {
+    outline: none;
+    border-color: #eb5bb1;
+    background-color: #f0f0f0;
+}
+.auth_form input:hover {
+    outline: none;
+    border-color: #eb5bb1;
+    background-color: #f0f0f0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.auth_form button {
+    width: 150px;
+        margin-left: 80px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #eb5bb1;
+    background-color: white;
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 18px;
+    transition:  0.4s ease;
+}
+
+.auth_form button:hover {
+    border: 1px solid #d97bb4;
+    background-color: #f0f0f0;
+    color: #eb5bb1;
+    font-family: Inter;
+    font-weight: 300;
+}
+
+/* блок с ошибками */
+
+.error_block {
+    display: flex;
+    justify-content: center;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 15px;
+    position: fixed; /* Используем position: fixed для размещения блока поверх других элементов */
+    top: 50%; /* Размещаем блок по вертикали в центре */
+    left: 50%; /* Размещаем блок по горизонтали в центре */
+    transform: translate(-50%, -50%); /* Сдвигаем блок обратно на половину его ширины и высоты для центрирования */
+    z-index: 2; /* Устанавливаем z-index, чтобы блок был поверх других элементов */
+    width: 40vh;
+    height: 20vh;
+    background-color: #ffffff;
+    border: 1px solid #d97bb4;
+}
+.error_block p{
+    margin-top: 40px;
+}
+#closeButton{
+    position: absolute;
+    border: none;
+    width: 13px;
+    height: 15px;
+    font-size: 20px;
+    margin-left: -240px;
+    margin-top: 5px;
+    background-color: white;
+    cursor: pointer;
+}
+
+
+.nonfield {
+    display: none;
+}
+
+.link {
+    display: flex;
+    justify-content: space-evenly;
+    width: 300px;
+    font-family: Inter;
+    font-size: 17px;
+    color:#A3A3A3;
+    
+}
+
+.text_with_underline{
+    text-decoration: underline;
+    font-family: Inter;
+    font-size: 17px;
+    color:#A3A3A3;
+}
+
+.errorlist{
+    display: none;
+}
+
+.exit_but{
+    position: absolute;
+    font-family: Inter;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.exit_but a{
+    text-decoration: none;
+    color: black;
+    transition:  0.4s ease;
+}
+.exit_but a:hover{
+    color: #d97bb4;
+}

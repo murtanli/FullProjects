@@ -3,9 +3,9 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from .models import *
-@admin.register(Users)
-class UsersAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'login', 'password')
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'user', 'flower', 'quantity')
 
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):

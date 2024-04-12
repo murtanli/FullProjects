@@ -27,7 +27,7 @@
     gap: 20px;
 }
 
-.flower_info button{
+.add_flower{
     background-color: rgb(235,91,177);
     font-family: Inter;
     font-size: 20px;
@@ -38,7 +38,7 @@
     transition:  0.2s ease;
 }
 
-.flower_info button:active{
+.add_flower:active{
     background-color: rgb(152, 46, 109);
 }
 
@@ -61,4 +61,15 @@
     font-family: Inter;
     font-size: 30px;
     font-weight: 400;
+}
+
+.del_flower{
+    background-color: rgb(151, 151, 151);
+    font-family: Inter;
+    font-size: 20px;
+    border: 1px solid rgb(235,91,177);
+    border-radius: 10px;
+    height: 40px;
+    color: white;
+    transition:  0.2s ease;
 }
