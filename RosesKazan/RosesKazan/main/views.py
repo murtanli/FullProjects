@@ -54,9 +54,6 @@ def get_flower_image(request, flower_id):
     return FileResponse(open(image_path, 'rb'), content_type='image/jpeg')
 
 
-from django.shortcuts import get_object_or_404
-
-
 def add_to_cart(request):
     if request.method == 'POST':
         flower_id = request.POST.get('flower_id')
