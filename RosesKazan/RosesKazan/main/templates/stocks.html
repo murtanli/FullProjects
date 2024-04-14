@@ -62,7 +62,7 @@
                     </form>
                 {% endif %}
             {% else %}
-                <button onclick="alert_reg()">Заказать</button>
+                <button class="add_flower" onclick="alert_reg()">Заказать</button>
             {% endif %}
 
         </div>
@@ -113,7 +113,7 @@
                             </form>
                         {% endif %}
                     {% else %}
-                        <button onclick="alert_reg()">Заказать</button>
+                        <button class="add_flower" onclick="alert_reg()">Заказать</button>
                     {% endif %}
 
                 </div>
@@ -162,7 +162,7 @@
                             </form>
                         {% endif %}
                     {% else %}
-                        <button onclick="alert_reg()">Заказать</button>
+                        <button class="add_flower" onclick="alert_reg()">Заказать</button>
                     {% endif %}
 
 
@@ -209,7 +209,57 @@
                         </form>
                     {% endif %}
                 {% else %}
-                    <button onclick="alert_reg()">Заказать</button>
+                    <button class="add_flower" onclick="alert_reg()">Заказать</button>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endfor %}
+<script>
+    function alert_reg() {
+        alert('Зарегестрируйтесь чтобы заказать')
+    }
+</script>
+{% endblock %}
+
+{% block low_price %}
+<p class="stocks_title">Букеты до 2500 руб</p>
+{% for flow in low_price %}
+    <div class="stocks_blocks">
+        <div class="flower_block">
+            <img src="{% url 'get_flower_image' flower_id=flow.id %}" alt="Flower Image">
+            <p class="title_flower">
+                {{ flow.name }}
+            </p>
+            <div class="flower_info">
+                <p class="flower_avail">Всего - {{ flow.free_flowers }} штук</p>
+                <p class="flower_price">Цена - {{ flow.price |spacecomma }} руб</p>
+                
+                {% if request.user.is_authenticated %}
+                    {% if all_cart_items %}
+                        {% if flow.id in all_cart_items %}
+                            <form action="{% url 'del_to_cart' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="flower_id" value="{{ flow.id }}">
+                                <button class="del_flower">Удалить</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'add_to_cart' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="flower_id" value="{{ flow.id }}">
+                                <button class="add_flower">Заказать</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <form action="{% url 'add_to_cart' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="flower_id" value="{{ flow.id }}">
+                            <button class="add_flower">Заказать</button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <button class="add_flower" onclick="alert_reg()">Заказать</button>
                 {% endif %}
 
             </div>

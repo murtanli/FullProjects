@@ -35,7 +35,7 @@
             <div class="links_block">
                 {% if request.user.is_authenticated %}
                     <div class="contain_red">
-                        <a href="{% url 'home' %}">
+                        <a href="{% url 'cart_page' %}">
                         <img class="links_block_img1" src="{% static 'images/shopping_cart.png' %}" alt="">
                         </a>
                         {% if all_cart_items %}
@@ -43,12 +43,12 @@
                         {% endif %}
                     </div>
                     
-                    <a href="{% url 'home' %}">
+                    <a href="{% url 'cart_page' %}">
                         <img class="links_block_img2" src="{% static 'images/profile_icon.png' %}" alt="">
                         <a href="{% url 'logout_view' %}">{{ request.user }}</a>
                     </a>
                 {% else %}
-                    <a href="{% url 'home' %}">
+                    <a href="{% url 'cart_page' %}">
                         <img class="links_block_img1" src="{% static 'images/shopping_cart.png' %}" alt="">
                     </a>
                     <a href="{% url 'log_in_page' %}">
@@ -58,23 +58,20 @@
             </div>
         </div>
         <div class="links_sale">
-            <a href="">
-                Акции
+            <a href="{% url 'home' %}#discount">
+                Скидки
             </a>
-            <a href="">
+            <a href="{% url 'home' %}#rose">
                 Розы
             </a>
-            <a href="">
+            <a href="{% url 'home' %}#chrysanthemum">
+                Хризантемы
+            </a>
+            <a href="{% url 'home' %}#low_price">
                 Букеты до 2500 руб
             </a>
             <a href="">
                 Собери свой букет !
-            </a>
-            <a href="">
-                Подарочные букеты
-            </a>
-            <a href="">
-                Сладкие букеты
             </a>
         </div>
     </header>
@@ -86,17 +83,33 @@
     </div>
 
     <div class="stocks">
+        {% block cart %}
+        {% endblock %}
+
         {% block flowers %}
         {% endblock %}
-    
-        {% block roses %}
-        {% endblock %}
+        
+        <div id="rose">
+            {% block roses %}
+            {% endblock %}
+        </div>
+        
+        <div id="chrysanthemum">
+            {% block chrysanthemums %}
+            {% endblock %}
+        </div>
+        
 
-        {% block chrysanthemums %}
-        {% endblock %}
+        <div id="discount">
+            {% block disounts %}
+            {% endblock %}
+        </div>
 
-        {% block disounts %}
-        {% endblock %}
+        <div id="low_price">
+            {% block low_price %}
+            {% endblock %}
+        </div>
+        
     </div>
 
     <div class="results_block">
@@ -128,4 +141,25 @@
     </footer>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var anchorLinks = document.querySelectorAll('a[href^="#"]');
+
+        anchorLinks.forEach(function(anchorLink) {
+            anchorLink.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                var targetId = this.getAttribute('href').substring(1);
+                var targetElement = document.getElementById(targetId);
+
+                var offsetTop = targetElement.getBoundingClientRect().top;
+
+                window.scrollTo({
+                    top: offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    });
+</script>
 

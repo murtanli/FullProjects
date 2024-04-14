@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block cart %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/cart_css.css' %}">
+</head>
+
+<div class="cart_block">
+    <div class="title">
+        <p>Корзина</p>
+    </div>
+    <div class="cart_view">
+        {% for item in cart_items %}
+            <p>{{item.flower.name}}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

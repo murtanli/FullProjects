@@ -65,13 +65,13 @@
 }
 
 .del_flower{
-    background-color: rgb(151, 151, 151);
+    background-color: rgb(251, 251, 251);
     font-family: Inter;
     font-size: 20px;
-    border: 1px solid rgb(235,91,177);
+    border: 1px solid rgb(0, 0, 0);
     border-radius: 10px;
     height: 40px;
-    color: white;
+    color: rgb(0, 0, 0);
     transition:  0.2s ease;
     cursor: pointer;
 }
