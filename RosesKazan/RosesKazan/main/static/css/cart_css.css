@@ -5,3 +5,174 @@
     font-size: 40px;
     font-weight: 500;
 }
+
+.cart_view {
+    display: flex;
+    justify-content: center;
+    /* background-color: rgb(225, 225, 225); */
+    border: solid 1px rgb(178, 178, 178);
+    border-radius: 20px;
+}
+
+.cart_items{
+    /* margin-left: 20px; */
+    width: 100%;
+    
+}
+
+.names_block{
+    display: flex;
+    border-bottom: solid 1px rgb(178, 178, 178);
+}
+.names_block p {
+    font-family: Inter;
+    font-size: 1.7vh;
+}
+
+.name{
+    width: 50vh;
+    border-right: solid 1px rgb(178, 178, 178);
+    text-align: center;
+}
+.price{
+    width: 20vh;
+    border-right: solid 1px rgb(178, 178, 178);
+    text-align: center;
+}
+.amount{
+    width: 40vh;
+    border-right: solid 1px rgb(178, 178, 178);
+    text-align: center;
+}
+.sum{
+    width: 30vh;
+    text-align: center;
+}
+
+.cart_flower_block{
+    display: flex;
+    /* border-bottom:solid 1px  rgb(178, 178, 178); */
+}
+.line{
+    margin-left: 30%;
+    width: 80vh;
+    border-bottom:solid 1px  rgb(178, 178, 178);
+}
+
+.img_flower{
+    width: 30%;
+    padding: 5%;
+
+}
+.name_flower_img{
+    display: flex;
+    width: 50vh;
+
+}
+.name_flower_img p {
+    padding: 3%;
+    width: 40%;
+    font-family: Inter;
+    font-size: 1vw;
+}
+
+
+.price_flower {
+    width: 20vh;
+    
+}
+.price_flower p{
+    text-align: center;
+    padding: 3%;
+    margin-top: 3vh;
+    font-family: Inter;
+    font-size: 1vw;
+}
+
+
+.amount_block{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 40vh;
+}
+.button_block_add{
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    width: 60%;
+    height: 40%;
+    border: solid 1px rgb(178, 178, 178);
+    border-radius: 20px;
+}
+.decrease{
+    cursor: pointer;
+    border: none;
+    width: 20%;
+    height: 100%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    font-family: Inter;
+    font-size: 1vw;
+    transition:  0.2s ease;
+}
+.decrease:hover{
+    font-size: 28px;  
+}
+.decrease:active{
+    transform: scale(0.8);
+}
+
+.increase{
+    cursor: pointer;
+    border: none;
+    width: 20%;
+    height: 100%;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    font-family: Inter;
+    font-size: 1vw;
+    transition:  0.2s ease;
+}
+.increase:hover{
+    font-size: 28px;  
+}
+.increase:active{
+    transform: scale(0.8);
+}
+
+.quantity{
+    width: 60%;
+    height: 94%;
+    text-align: center;
+    border: none;
+    font-family: Inter;
+    font-size: 1vw;
+}
+
+.quantity[type=number]::-webkit-inner-spin-button {
+  display: none;
+}
+
+.quantity:focus{
+    outline: none;
+}
+.sum{
+    width: 30vh;
+}
+.sum_text{
+    text-align: center;
+    padding: 3%;
+    margin-top: 3vh;
+    font-family: Inter;
+    font-size: 1vw;
+
+}
+
+.del_but button{
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}

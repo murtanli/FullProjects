@@ -1,19 +1,123 @@
 {% extends 'main.html' %}
 {% load static %}
-
+{% load custom_filters %}
 {% block cart %}
 <head>
     <link rel="stylesheet" href="{% static 'css/cart_css.css' %}">
 </head>
+
 
 <div class="cart_block">
     <div class="title">
         <p>Корзина</p>
     </div>
     <div class="cart_view">
-        {% for item in cart_items %}
-            <p>{{item.flower.name}}</p>
-        {% endfor %}
+        <div class="cart_items">
+            <div class="names_block">
+                <div class="name">
+                    <p>Наименование</p>
+                </div>
+                <div class="price">
+                    <p>Цена</p>
+                </div>
+                <div class="amount">
+                    <p>Количество</p>
+                </div>
+                <div class="sum">
+                    <p>Сумма</p>
+                </div>
+            </div>
+            <div class="cart_blocks">
+                {% for item in cart_items %}
+                    {% if item in discounts %}
+
+                    {% else %}
+                        <div class="cart_flower_block">
+                            <div class="name_flower_img">
+                                <img class="img_flower" src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="">
+                                <p>{{item.flower.name}}</p>
+                            </div>
+                            <div class="price_flower">
+                                <p class="price_num">{{ item.flower.price|spacecomma }} руб</p>
+                            </div>
+                            <div class="amount_block">
+                                <div class="button_block_add">
+                                    <button class="decrease">-</button>
+                                    <input type="number" class="quantity" value="1">
+                                    <button class="increase">+</button>
+                                </div>
+                            </div>
+                            <div class="sum">
+                                <p class="sum_text"></p>
+                            </div>
+                            <div class="del_but">
+                                <form action="{% url 'del_flower' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                    <button class="del_flower">x</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="line">
+
+                        </div>
+                    {% endif %}
+                
+                {% endfor %}
+            </div>
+            
+        </div>
+        
     </div>
 </div>
+<script>
+    var quantityBlocks = document.querySelectorAll('.button_block_add');
+    
+
+
+    quantityBlocks.forEach(function(block) {
+    var decreaseButton = block.querySelector('.decrease');
+    var increaseButton = block.querySelector('.increase');
+    var quantityInput = block.querySelector('.quantity');
+    var sumText = block.parentElement.nextElementSibling.querySelector('.sum_text');
+    var priceNumText = block.parentElement.previousElementSibling.querySelector('.price_num');
+    var priceNum = parseFloat(priceNumText.textContent.replace(/\s+/g, '').replace(' руб', ''));
+
+    // Функция для обновления суммы
+    function updateSum() {
+        var currentValue = parseInt(quantityInput.value);
+        var sum = priceNum * currentValue;
+        if (currentValue < 100 && currentValue > 0){
+            sumText.textContent = sum.toFixed(2) + ' руб';
+        } else if(currentValue == 0) {
+            sumText.textContent = '0 руб';
+        }
+        
+    }
+
+    // Устанавливаем начальное значение суммы при загрузке страницы
+    updateSum();
+
+    decreaseButton.addEventListener('click', function() {
+        var currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+            updateSum();
+        }
+    });
+
+    increaseButton.addEventListener('click', function() {
+        var currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+        updateSum();
+    });
+
+    // Обработчик события input для обновления суммы при изменении количества в input
+    quantityInput.addEventListener('input', updateSum);
+});
+
+
+
+</script>
 {% endblock %}

@@ -48,7 +48,7 @@
                         <a href="{% url 'logout_view' %}">{{ request.user }}</a>
                     </a>
                 {% else %}
-                    <a href="{% url 'cart_page' %}">
+                    <a href="{% url 'log_in_page' %}">
                         <img class="links_block_img1" src="{% static 'images/shopping_cart.png' %}" alt="">
                     </a>
                     <a href="{% url 'log_in_page' %}">

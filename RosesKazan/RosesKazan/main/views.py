@@ -1,5 +1,6 @@
+from django.contrib import messages
 from django.db.models import Q
-from django.http import FileResponse
+from django.http import FileResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import *
 from .models import *
@@ -85,11 +86,33 @@ def del_added_cart(request):
     else:
         return redirect('home')
 
+def del_flower(request):
+    if request.method == 'POST':
+        flower_id = request.POST.get('flower_id')
+        flower = get_object_or_404(Flowers, id=flower_id)
+        try:
+            cart_item = CartItem.objects.get(user=request.user, flower=flower)
+        except CartItem.DoesNotExist:
+            return redirect('log_in_page')
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+        else:
+            cart_item.delete()
+
+        return redirect('cart_page')
+    else:
+        return redirect('cart_page')
 
 def cart_page(request):
     if request.user.is_authenticated:
         all_cart_items = CartItem.objects.filter(user=request.user)
         cart_item_ids = [item.flower.id for item in all_cart_items]
+    else:
+        raise Http404("Страница не найдена")
+
+    discounts = Discount.objects.all()
+    disc_flowers = [discount.flower for discount in discounts]
 
     if request.method == 'GET':
         form = SearchForm(request.GET)
@@ -107,7 +130,8 @@ def cart_page(request):
             form = SearchForm()
     return render(request, "cart_page.html", {
         'form': form,
-        'cart_items': all_cart_items
+        'cart_items': all_cart_items,
+        'discounts': disc_flowers,
     })
 
 
