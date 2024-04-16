@@ -112,7 +112,7 @@ def cart_page(request):
         raise Http404("Страница не найдена")
 
     discounts = Discount.objects.all()
-    disc_flowers = [discount.flower for discount in discounts]
+    disc_flowers = [discount.flower.id for discount in discounts]
 
     if request.method == 'GET':
         form = SearchForm(request.GET)
@@ -131,7 +131,8 @@ def cart_page(request):
     return render(request, "cart_page.html", {
         'form': form,
         'cart_items': all_cart_items,
-        'discounts': disc_flowers,
+        'discounts': discounts,
+        'disc_flowers_id': disc_flowers,
     })
 
 

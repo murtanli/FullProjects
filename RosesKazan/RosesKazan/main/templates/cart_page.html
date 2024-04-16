@@ -29,8 +29,38 @@
             </div>
             <div class="cart_blocks">
                 {% for item in cart_items %}
-                    {% if item in discounts %}
-
+                    {% if item.flower.id in disc_flowers_id %}
+                        <div class="cart_flower_block">
+                            <div class="name_flower_img">
+                                <img class="img_flower" src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="">
+                                <p>{{item.flower.name}}</p>
+                            </div>
+                            <div class="price_flower">
+                                {% for discount in discounts %}
+                                    {% if discount.flower.id == item.flower.id %}
+                                        <p class="price_num">{{ discount.discount_price|spacecomma }} руб</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="amount_block">
+                                <div class="button_block_add">
+                                    <button class="decrease">-</button>
+                                    <input type="number" class="quantity" value="1">
+                                    <button class="increase">+</button>
+                                </div>
+                            </div>
+                            <div class="sum">
+                                <p class="sum_text"></p>
+                            </div>
+                            <div class="del_but">
+                                <form action="{% url 'del_flower' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                    <button class="del_flower">x</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="line"></div>
                     {% else %}
                         <div class="cart_flower_block">
                             <div class="name_flower_img">
@@ -58,13 +88,10 @@
                                 </form>
                             </div>
                         </div>
-                        
-                        <div class="line">
-
-                        </div>
+                        <div class="line"></div>
                     {% endif %}
-                
-                {% endfor %}
+            {% endfor %}
+            
             </div>
             
         </div>
