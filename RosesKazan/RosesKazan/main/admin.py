@@ -5,7 +5,7 @@ from django.utils.html import format_html
 from .models import *
 @admin.register(CartItem)
 class CartItemAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'user', 'flower', 'quantity')
+    list_display = ('pk', 'profile', 'flower', 'quantity')
 
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):
@@ -13,7 +13,7 @@ class DiscountAdmin(admin.ModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('pk','user', 'name', 'lastname', 'email')
+    list_display = ('pk','user', 'name', 'lastname', 'address')
 
 @admin.register(Flowers)
 class FlowersAdmin(admin.ModelAdmin):
@@ -31,7 +31,7 @@ class FlowersAdmin(admin.ModelAdmin):
 
 @admin.register(Orders)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'profile', 'order_number', 'address', 'status', 'order_date', 'arrival_time', 'price', 'display_flowers')
+    list_display = ('pk', 'profile', 'order_number', 'status', 'order_date', 'arrival_time', 'price', 'display_flowers')
 
     def display_flowers(self, obj):
         return ", ".join([flower.name for flower in obj.flowers.all()])

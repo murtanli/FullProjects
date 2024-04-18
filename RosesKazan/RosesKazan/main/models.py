@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    name = models.CharField(max_length=20)
-    lastname = models.CharField(max_length=40)
-    email = models.CharField(max_length=50)
+    name = models.CharField(max_length=20, null=True, blank=True)
+    lastname = models.CharField(max_length=40, null=True, blank=True)
+    address = models.CharField(max_length=50, null=True, blank=True)
 
 class Flowers(models.Model):
     name = models.CharField(max_length=100)
@@ -31,7 +31,6 @@ class Orders(models.Model):
 
     profile = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.CASCADE)
     order_number = models.CharField(max_length=20)
-    address = models.CharField(max_length=50)
     status = models.CharField(max_length=50, choices=status_list)
     order_date = models.DateTimeField()
     arrival_time = models.DateTimeField(null=True, blank=True)
@@ -43,6 +42,6 @@ class Stocks(models.Model):
     stock_price = models.FloatField(max_length=20)
 
 class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
     flower = models.ForeignKey(Flowers, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)

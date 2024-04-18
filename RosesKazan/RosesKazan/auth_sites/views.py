@@ -4,6 +4,7 @@ from .forms import *
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+from main.models import *
 
 
 
@@ -28,7 +29,6 @@ def auth_page(request):
 
 
 def sign_up_page(request):
-
     if request.method == 'POST':
         sign_up_form = UserRegistrationForm(request.POST)
         if sign_up_form.is_valid():
@@ -36,6 +36,9 @@ def sign_up_page(request):
             new_user.set_password(sign_up_form.cleaned_data['password'])
             try:
                 new_user.save()
+                profile = Profile(user=new_user)
+                profile.save()
+
                 return redirect('home')
             except IntegrityError as e:
                 sign_up_form.add_error('login', 'Извините, этот логин уже используется. Пожалуйста, выберите другой.')

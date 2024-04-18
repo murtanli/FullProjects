@@ -36,8 +36,7 @@
             <p class="flower_avail">Всего - {{ flower.free_flowers }} штук</p>
             <p class="flower_price">Цена - {{ flower.price|spacecomma }} руб</p>
             
-            
-   
+        
 
             {% if request.user.is_authenticated %}
                 {% if all_cart_items %}
@@ -78,6 +77,7 @@
     <link rel="stylesheet" href="{% static 'css/stocks_css.css' %}">
 </head>
 <p class="stocks_title">Розы</p>
+<div class="rose">
 {% for rose in roses %}
     {% if rose.category == "Розы" %}
         <div class="stocks_blocks">
@@ -121,12 +121,14 @@
         </div>
     {% endif %}
 {% endfor %}
+</div>
 {% endblock %}
 {% block chrysanthemums %}
 <head>
     <link rel="stylesheet" href="{% static 'css/stocks_css.css' %}">
 </head>
 <p class="stocks_title">Хризантемы</p>
+<div class="chrysanthemum">
 {% for chrysanthemum in chrysanthemums %}
     {% if chrysanthemum.category == "Хризантемы" %}
         <div class="stocks_blocks">
@@ -171,10 +173,12 @@
         </div>
     {% endif %}
 {% endfor %}
+</div>
 {% endblock %}
 
 {% block disounts %}
 <p class="stocks_title">Скидки</p>
+<div class="discount">
 {% for discount in discounts %}
     <div class="stocks_blocks">
         <div class="flower_block">
@@ -217,6 +221,7 @@
         </div>
     </div>
 {% endfor %}
+</div>
 <script>
     function alert_reg() {
         alert('Зарегестрируйтесь чтобы заказать')
@@ -226,6 +231,7 @@
 
 {% block low_price %}
 <p class="stocks_title">Букеты до 2500 руб</p>
+<div class="low_price">
 {% for flow in low_price %}
     <div class="stocks_blocks">
         <div class="flower_block">
@@ -267,6 +273,7 @@
         </div>
     </div>
 {% endfor %}
+</div>
 <script>
     function alert_reg() {
         alert('Зарегестрируйтесь чтобы заказать')

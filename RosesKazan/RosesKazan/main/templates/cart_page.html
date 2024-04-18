@@ -4,7 +4,15 @@
 {% block cart %}
 <head>
     <link rel="stylesheet" href="{% static 'css/cart_css.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 </head>
+
+<div class="message_block">
+    {% block message %}
+    {% endblock %}
+</div>
 
 
 <div class="cart_block">
@@ -27,7 +35,7 @@
                     <p>Сумма</p>
                 </div>
             </div>
-            <div class="cart_blocks">
+            <div id="cart_blocks" class="cart_blocks">
                 {% for item in cart_items %}
                     {% if item.flower.id in disc_flowers_id %}
                         <div class="cart_flower_block">
@@ -91,7 +99,20 @@
                         <div class="line"></div>
                     {% endif %}
             {% endfor %}
-            
+            <div class="order">
+                <div class="cart_sum">
+                    <p id="total_sum"></p>
+                </div>
+                <form id="order-form" action="{% url 'cart_page' %}" method="post">
+                    {% csrf_token %}
+                    {% for item in cart_items %}
+                        <input type="hidden" name="flower_{{ forloop.counter }}_id" value="{{ item.flower.id }}">
+                        <input type="hidden" name="flower_{{ forloop.counter }}_quantity" value="{{ item.quantity }}">
+                    {% endfor %}
+                    <button type="submit" class="order-button">Заказать</button>
+                </form>
+                
+            </div>
             </div>
             
         </div>
@@ -99,49 +120,70 @@
     </div>
 </div>
 <script>
-    var quantityBlocks = document.querySelectorAll('.button_block_add');
+var orderForm = document.getElementById('order-form');
+
+    //работает при нажатии
+    orderForm.addEventListener('submit', function(event) {
+    var quantityInputs = document.querySelectorAll('input[name^="flower_"][name$="_quantity"]');
+    var cartItems = document.querySelectorAll('.cart_flower_block');
+
+    cartItems.forEach(function(cartItem, index) {
+        var currentQuantity = cartItem.querySelector('.quantity').value;
+        quantityInputs[index].value = currentQuantity;
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
     
 
+    var quantityBlocks = document.querySelectorAll('.button_block_add');
+    var totalPrice = 0;
 
     quantityBlocks.forEach(function(block) {
-    var decreaseButton = block.querySelector('.decrease');
-    var increaseButton = block.querySelector('.increase');
-    var quantityInput = block.querySelector('.quantity');
-    var sumText = block.parentElement.nextElementSibling.querySelector('.sum_text');
-    var priceNumText = block.parentElement.previousElementSibling.querySelector('.price_num');
-    var priceNum = parseFloat(priceNumText.textContent.replace(/\s+/g, '').replace(' руб', ''));
 
-    // Функция для обновления суммы
-    function updateSum() {
-        var currentValue = parseInt(quantityInput.value);
-        var sum = priceNum * currentValue;
-        if (currentValue < 100 && currentValue > 0){
-            sumText.textContent = sum.toFixed(2) + ' руб';
-        } else if(currentValue == 0) {
-            sumText.textContent = '0 руб';
+        var decreaseButton = block.querySelector('.decrease');
+        var increaseButton = block.querySelector('.increase');
+        var quantityInput = block.querySelector('.quantity');
+        var sumText = block.parentElement.nextElementSibling.querySelector('.sum_text');
+        var priceNumText = block.parentElement.previousElementSibling.querySelector('.price_num');
+        var priceNum = parseFloat(priceNumText.textContent.replace(/\s+/g, '').replace(' руб', ''));
+
+        // Функция для обновления суммы и сохранения количества в input
+        function updateSum() {
+            var currentValue = parseInt(quantityInput.value);
+            var sum = priceNum * currentValue;
+            if (currentValue < 100 && currentValue > 0){
+                sumText.textContent = sum.toFixed(2) + ' руб';
+            } else if(currentValue == 0) {
+                sumText.textContent = '0 руб';
+            }
+            totalPrice += sum;
+            var formattedPrice = totalPrice.toLocaleString('ru-RU');
+            document.getElementById('total_sum').textContent = 'Общая сумма: ' + formattedPrice + ' руб';
+
+            // Сохраняем текущее количество в input
+            quantityInput.value = currentValue;
         }
-        
-    }
 
-    // Устанавливаем начальное значение суммы при загрузке страницы
-    updateSum();
-
-    decreaseButton.addEventListener('click', function() {
-        var currentValue = parseInt(quantityInput.value);
-        if (currentValue > 1) {
-            quantityInput.value = currentValue - 1;
-            updateSum();
-        }
-    });
-
-    increaseButton.addEventListener('click', function() {
-        var currentValue = parseInt(quantityInput.value);
-        quantityInput.value = currentValue + 1;
         updateSum();
-    });
 
-    // Обработчик события input для обновления суммы при изменении количества в input
-    quantityInput.addEventListener('input', updateSum);
+        decreaseButton.addEventListener('click', function() {
+            var currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+                updateSum();
+            }
+        });
+
+        increaseButton.addEventListener('click', function() {
+            var currentValue = parseInt(quantityInput.value);
+            quantityInput.value = currentValue + 1;
+            updateSum();
+        });
+
+        quantityInput.addEventListener('input', updateSum);
+
+    });
 });
 
 

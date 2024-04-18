@@ -54,8 +54,8 @@
     /* border-bottom:solid 1px  rgb(178, 178, 178); */
 }
 .line{
-    margin-left: 30%;
-    width: 80vh;
+
+    width: 100%;
     border-bottom:solid 1px  rgb(178, 178, 178);
 }
 
@@ -175,4 +175,38 @@
     border: none;
     cursor: pointer;
     margin-top: 10px;
+}
+
+.order{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100px;
+}
+
+.order p{
+    font-family: Inter;
+    font-size: 2vh;
+    
+}
+
+.order-button{
+    background-color: rgb(235,91,177);
+    font-family: Inter;
+    font-size: 30px;
+    border: 1px solid rgb(235,91,177);
+    border-radius: 10px;
+    height: 60px;
+    width: 30vh;
+    color: white;
+    transition:  0.2s ease;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.message_block{
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    background-color: red;
 }

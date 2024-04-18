@@ -1,10 +1,14 @@
+import json
+
 from django.contrib import messages
 from django.db.models import Q
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import *
 from .models import *
-
+import uuid
+import json
+from django.http import JsonResponse
 
 def main_page(request):
     flowers = Flowers.objects.all()
@@ -18,8 +22,14 @@ def main_page(request):
     cart_item_ids = []
 
     if request.user.is_authenticated:
-        all_cart_items = CartItem.objects.filter(user=request.user)
-        cart_item_ids = [item.flower.id for item in all_cart_items]
+        profile = Profile.objects.filter(user=request.user).first()  # Получить первый профиль или None
+        if profile:
+            all_cart_items = CartItem.objects.filter(profile=profile)
+            cart_item_ids = [item.flower.id for item in all_cart_items]
+        else:
+            cart_item_ids = []  # Пользователь не имеет профиля или корзины
+    else:
+        cart_item_ids = []  # Пользователь не аутентифицирован
 
     if request.method == 'GET':
         form = SearchForm(request.GET)
@@ -57,8 +67,8 @@ def add_to_cart(request):
     if request.method == 'POST':
         flower_id = request.POST.get('flower_id')
         flower = get_object_or_404(Flowers, id=flower_id)
-
-        cart_item, created = CartItem.objects.get_or_create(user=request.user, flower=flower)
+        profile = Profile.objects.filter(user=request.user).first()
+        cart_item, created = CartItem.objects.get_or_create(profile=profile, flower=flower)
 
         if not created:
             cart_item.quantity += 1
@@ -73,7 +83,8 @@ def del_added_cart(request):
         flower_id = request.POST.get('flower_id')
         flower = get_object_or_404(Flowers, id=flower_id)
         try:
-            cart_item = CartItem.objects.get(user=request.user, flower=flower)
+            profile = Profile.objects.filter(user=request.user).first()
+            cart_item = CartItem.objects.get(profile=profile, flower=flower)
         except CartItem.DoesNotExist:
             return redirect('log_in_page')
         if cart_item.quantity > 1:
@@ -106,10 +117,16 @@ def del_flower(request):
 
 def cart_page(request):
     if request.user.is_authenticated:
-        all_cart_items = CartItem.objects.filter(user=request.user)
-        cart_item_ids = [item.flower.id for item in all_cart_items]
+        profile = Profile.objects.filter(user=request.user).first()  # Получить первый профиль или None
+        if profile:
+            all_cart_items = CartItem.objects.filter(profile=profile)
+            cart_item_ids = [item.flower.id for item in all_cart_items]
+        else:
+            cart_item_ids = []  # Пользователь не имеет профиля или корзины
     else:
+        cart_item_ids = []  # Пользователь не аутентифицирован
         raise Http404("Страница не найдена")
+
 
     discounts = Discount.objects.all()
     disc_flowers = [discount.flower.id for discount in discounts]
@@ -134,6 +151,29 @@ def cart_page(request):
         'discounts': discounts,
         'disc_flowers_id': disc_flowers,
     })
+
+def place_order(request):
+
+
+    if request.method == 'POST':
+        print(request.POST.items)
+        profile = Profile.objects.filter(user=request.user).first()
+        if profile.address is None:
+            messages.success(request, 'dfdfdf')
+            return render(request, 'message.html')
+        for key, value in request.POST.items():
+            if key.startswith('flower_'):
+                flower_id = key.split('_')[1]  # Получаем айди товара из ключа
+                quantity = value  # Количество товара
+
+
+
+                cart = CartItem.objects.filter()
+                print(f'{flower_id} {quantity}')
+        return HttpResponse("Заказ успешно размещен")
+    else:
+        # В случае, если метод запроса не POST, вернуть ответ с кодом 405 (Метод не разрешен)
+        return HttpResponse(status=405)
 
 
 

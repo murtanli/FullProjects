@@ -262,3 +262,12 @@ footer {
     margin-top: -40px;
     margin-left: 35px;
 }
+
+.rose, .chrysanthemum, .discount, .low_price{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 30px;
+}
+
+
