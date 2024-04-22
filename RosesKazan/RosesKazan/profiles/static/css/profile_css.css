@@ -22,7 +22,7 @@
 
 .update_info{
     width: 180vh;
-    height: 50vh;
+    height: 58vh;
     
 }
 
@@ -30,12 +30,68 @@
     width: 100%;
     height: 100%;
     border: 1px solid rgb(178, 178, 178);
+    border-radius: 1vh;
 }
 .title_info{
     font-family: Inter;
     font-size: 1.5vw;
 }
 
-.forms{
+.forms form{
     display: flex;
+    flex-wrap: wrap;
+    margin-left: 3%;
+    width: 80%;
+    height: 20vh;
+    gap: 1vh;
+}
+
+.forms p{
+    font-family: Inter;
+    font-size: 1.3vw;
+}
+
+.forms input{
+    padding: 1vh;
+    border: 1px solid #ccc;
+    border-radius: 1vh;
+    width: 60vh;
+    background-color: #ffffff;
+    font-family: Inter;
+    font-size: 1vw;
+    padding-left: 30px;
+    transition:  0.4s ease;
+    margin-bottom: 2vh;
+}
+
+.forms input::placeholder{
+    font-family: Inter;
+    font-size: 1vw;
+    margin-left: 20px;
+}
+
+.forms input:focus {
+    outline: none;
+    border-color: #eb5bb1;
+    background-color: #f0f0f0;
+}
+.forms input:hover {
+    outline: none;
+    border-color: #eb5bb1;
+    background-color: #f0f0f0;
+}
+
+.button_submit{
+    background-color: rgb(235,91,177);
+    font-family: Inter;
+    font-size: 1.2vw;
+    border: 1px solid rgb(235,91,177);
+    border-radius: 1vh;
+    height: 5vh;
+    width: 20vh;
+    color: white;
+    transition:  0.2s ease;
+    cursor: pointer;
+
+    
 }

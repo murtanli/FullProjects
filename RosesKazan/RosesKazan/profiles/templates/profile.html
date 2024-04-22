@@ -19,19 +19,26 @@
             </div>
             <div class="forms">
                 <form action="{% url 'profile' %}" method="post">
+                    {% csrf_token %}
                     <div class="name">
                         <p>Имя</p>
-                        <input type="text" name="name" id="name">
+                        <input type="text" name="name" id="name" value="{{ profile_info.name }}">
                     </div>
-                </form>
-                <form action="{% url 'profile' %}" method="post">
-                    <div class="name">
+                    <div class="last_name">
                         <p>Фамилия</p>
-                        <input type="text" name="name" id="name">
+                        <input type="text" name="last_name" id="last_name" value="{{ profile_info.lastname }}">
                     </div>
-                </form>
+                    <div class="address">
+                        <p>Адресс</p>
+                        <input type="text" name="address" id="address" value="{{ profile_info.address }}">
+                    </div>
+                    <div class="email">
+                        <p>Адресс доставки</p>
+                        <input type="email" name="email" id="email" value="{{ email }}">
+                    </div>
+                    <button type="submit" class="button_submit">Сохранить !</button>
+                </form>  
             </div>
-            
         </div>
     </div>
 </div>
