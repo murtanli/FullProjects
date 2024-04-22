@@ -10,4 +10,6 @@ urlpatterns = [
     path('del_flower/', del_flower, name='del_flower'),
     path('cart/', cart_page, name='cart_page'),
     path('order_cart/', place_order, name='place_order'),
+    path('add_address/', add_address, name='add_address'),
+    path('save_cart/', save_cart, name='save_cart'),
 ]

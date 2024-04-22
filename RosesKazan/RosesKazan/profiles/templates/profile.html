@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block profile %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/profile_css.css' %}">
+</head>
+<div class="profile_block">
+    
+    <div class="update_info">
+        <div class="title_info">
+            <p>Мои данные</p>
+        </div>
+    
+        <div class="user_info">
+            <div class="message">
+                <p>{{ message }}</p>
+            </div>
+            <div class="forms">
+                <form action="{% url 'profile' %}" method="post">
+                    <div class="name">
+                        <p>Имя</p>
+                        <input type="text" name="name" id="name">
+                    </div>
+                </form>
+                <form action="{% url 'profile' %}" method="post">
+                    <div class="name">
+                        <p>Фамилия</p>
+                        <input type="text" name="name" id="name">
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -9,115 +9,115 @@
 
 </head>
 
-<div class="message_block">
-    {% block message %}
-    {% endblock %}
-</div>
-
-
-<div class="cart_block">
-    <div class="title">
-        <p>Корзина</p>
-    </div>
-    <div class="cart_view">
-        <div class="cart_items">
-            <div class="names_block">
-                <div class="name">
-                    <p>Наименование</p>
+<div id="cart_blocks" class="cart_blocks">
+    {% if cart_items %}
+    <div class="cart_block">
+        <div class="title">
+            <p>Корзина</p>
+        </div>
+        <div class="cart_view">
+            <div class="cart_items">
+                <div class="names_block">
+                    <div class="name">
+                        <p>Наименование</p>
+                    </div>
+                    <div class="price">
+                        <p>Цена</p>
+                    </div>
+                    <div class="amount">
+                        <p>Количество</p>
+                    </div>
+                    <div class="sum">
+                        <p>Сумма</p>
+                    </div>
                 </div>
-                <div class="price">
-                    <p>Цена</p>
-                </div>
-                <div class="amount">
-                    <p>Количество</p>
-                </div>
-                <div class="sum">
-                    <p>Сумма</p>
-                </div>
-            </div>
-            <div id="cart_blocks" class="cart_blocks">
-                {% for item in cart_items %}
-                    {% if item.flower.id in disc_flowers_id %}
-                        <div class="cart_flower_block">
-                            <div class="name_flower_img">
-                                <img class="img_flower" src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="">
-                                <p>{{item.flower.name}}</p>
-                            </div>
-                            <div class="price_flower">
-                                {% for discount in discounts %}
-                                    {% if discount.flower.id == item.flower.id %}
-                                        <p class="price_num">{{ discount.discount_price|spacecomma }} руб</p>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                            <div class="amount_block">
-                                <div class="button_block_add">
-                                    <button class="decrease">-</button>
-                                    <input type="number" class="quantity" value="1">
-                                    <button class="increase">+</button>
-                                </div>
-                            </div>
-                            <div class="sum">
-                                <p class="sum_text"></p>
-                            </div>
-                            <div class="del_but">
-                                <form action="{% url 'del_flower' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
-                                    <button class="del_flower">x</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="line"></div>
-                    {% else %}
-                        <div class="cart_flower_block">
-                            <div class="name_flower_img">
-                                <img class="img_flower" src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="">
-                                <p>{{item.flower.name}}</p>
-                            </div>
-                            <div class="price_flower">
-                                <p class="price_num">{{ item.flower.price|spacecomma }} руб</p>
-                            </div>
-                            <div class="amount_block">
-                                <div class="button_block_add">
-                                    <button class="decrease">-</button>
-                                    <input type="number" class="quantity" value="1">
-                                    <button class="increase">+</button>
-                                </div>
-                            </div>
-                            <div class="sum">
-                                <p class="sum_text"></p>
-                            </div>
-                            <div class="del_but">
-                                <form action="{% url 'del_flower' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
-                                    <button class="del_flower">x</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="line"></div>
-                    {% endif %}
-            {% endfor %}
-            <div class="order">
-                <div class="cart_sum">
-                    <p id="total_sum"></p>
-                </div>
-                <form id="order-form" action="{% url 'cart_page' %}" method="post">
-                    {% csrf_token %}
                     {% for item in cart_items %}
-                        <input type="hidden" name="flower_{{ forloop.counter }}_id" value="{{ item.flower.id }}">
-                        <input type="hidden" name="flower_{{ forloop.counter }}_quantity" value="{{ item.quantity }}">
-                    {% endfor %}
-                    <button type="submit" class="order-button">Заказать</button>
-                </form>
+                        {% if item.flower.id in disc_flowers_id %}
+                            <div class="cart_flower_block">
+                                <div class="name_flower_img">
+                                    <img class="img_flower" src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="">
+                                    <p>{{item.flower.name}}</p>
+                                </div>
+                                <div class="price_flower">
+                                    {% for discount in discounts %}
+                                        {% if discount.flower.id == item.flower.id %}
+                                            <p class="price_num">{{ discount.discount_price|spacecomma }} руб</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="amount_block">
+                                    <div class="button_block_add">
+                                        <button class="decrease">-</button>
+                                        <input type="number" class="quantity" value="{{ item.quantity }}" readonly> 
+                                        <button class="increase">+</button>
+                                    </div>
+                                </div>
+                                <div class="sum">
+                                    <p class="sum_text"></p>
+                                </div>
+                                <div class="del_but">
+                                    <form action="{% url 'del_flower' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                        <button class="del_flower">x</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="line"></div>
+                        {% else %}
+                            <div class="cart_flower_block">
+                                <div class="name_flower_img">
+                                    <img class="img_flower" src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="">
+                                    <p>{{item.flower.name}}</p>
+                                </div>
+                                <div class="price_flower">
+                                    <p class="price_num">{{ item.flower.price|spacecomma }} руб</p>
+                                </div>
+                                <div class="amount_block">
+                                    <div class="button_block_add">
+                                        <button class="decrease">-</button>
+                                        <input type="number" class="quantity" value="{{ item.quantity }}" readonly>
+                                        <button class="increase">+</button>
+                                    </div>
+                                </div>
+                                <div class="sum">
+                                    <p class="sum_text"></p>
+                                </div>
+                                <div class="del_but">
+                                    <form action="{% url 'del_flower' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                        <button class="del_flower">x</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="line"></div>
+                        {% endif %}
+                {% endfor %}
+                <div class="order">
+                    <div class="cart_sum">
+                        <p id="total_sum"></p>
+                    </div>
+                    <form id="order-form" action="{% url 'place_order' %}" method="post">
+                        {% csrf_token %}
+                        {% for item in cart_items %}
+                            <input type="hidden" name="flower_{{ forloop.counter }}_id" value="{{ item.flower.id }}">
+                            <input type="hidden" name="flower_{{ forloop.counter }}_quantity" value="{{ item.quantity }}">
+                        {% endfor %}
+                        <button type="submit" class="order-button">Заказать</button>
+                    </form>
+                    
+                </div>
+                </div>
                 
-            </div>
             </div>
             
         </div>
-        
-    </div>
+    {% else %}
+        <div class="blank_title">
+            <p>Кажется, ваша корзина пуста.</p>
+        </div>
+    {% endif %}
 </div>
 <script>
 var orderForm = document.getElementById('order-form');
@@ -134,10 +134,9 @@ var orderForm = document.getElementById('order-form');
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    
 
     var quantityBlocks = document.querySelectorAll('.button_block_add');
-    var totalPrice = 0;
+    var totalPrice = 0; // Объявляем переменную вне функции
 
     quantityBlocks.forEach(function(block) {
 
@@ -151,18 +150,40 @@ document.addEventListener('DOMContentLoaded', function() {
         // Функция для обновления суммы и сохранения количества в input
         function updateSum() {
             var currentValue = parseInt(quantityInput.value);
-            var sum = priceNum * currentValue;
+            //var sum = priceNum * currentValue
+            console.log(priceNum);
+            console.log(currentValue);
+            var sum = priceNum
             if (currentValue < 100 && currentValue > 0){
-                sumText.textContent = sum.toFixed(2) + ' руб';
+                num = priceNum * currentValue;
+                sumText.textContent =  num.toFixed(2) + ' руб';
+                quantityInput.value = currentValue;
             } else if(currentValue == 0) {
                 sumText.textContent = '0 руб';
             }
-            totalPrice += sum;
+            totalPrice += sum; // Обновляем общую сумму без перезаписи
+            console.log(totalPrice)
             var formattedPrice = totalPrice.toLocaleString('ru-RU');
             document.getElementById('total_sum').textContent = 'Общая сумма: ' + formattedPrice + ' руб';
-
             // Сохраняем текущее количество в input
-            quantityInput.value = currentValue;
+
+        }
+        function minusSum() {
+            var currentValue = parseInt(quantityInput.value);
+            var sum = priceNum ;
+            if (currentValue < 100 && currentValue > 0){
+                num = priceNum * currentValue;
+                sumText.textContent = num.toFixed(2) + ' руб';
+                quantityInput.value = currentValue;
+            } else if(currentValue == 0) {
+                sumText.textContent = '0 руб';
+            }
+            totalPrice -= sum; // Обновляем общую сумму без перезаписи
+            console.log(totalPrice)
+            var formattedPrice = totalPrice.toLocaleString('ru-RU');
+            document.getElementById('total_sum').textContent = 'Общая сумма: ' + formattedPrice + ' руб';
+            // Сохраняем текущее количество в input
+           
         }
 
         updateSum();
@@ -171,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var currentValue = parseInt(quantityInput.value);
             if (currentValue > 1) {
                 quantityInput.value = currentValue - 1;
-                updateSum();
+                minusSum();
             }
         });
 
@@ -185,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 });
+
 
 
 

@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/add_address_css.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    {{ message }}
+    <div class="block_add">
+        <div class="title">
+            Добавьте адрес доставки
+        </div>
+        <div class="add_form">
+            <form id="order-form" action="{% url 'save_cart' %}" method="post">
+                {% csrf_token %}
+                <input class="input_address" name="address" value="Казань, " type="text" placeholder="Введите адрес доставки" maxlength="250">
+                <button type="submit" class="order-button">Заказать</button>
+            </form>
+        </div>
+        <div class="error_message">
+            {{ error_message }}
+        </div>
+    </div>
+</body>
+</html>

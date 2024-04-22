@@ -1,0 +1,84 @@
+@font-face {
+    font-family: Inter;
+    src: url(../fonts/Inter/Inter-VariableFont_slnt\,wght.ttf)
+}
+
+body{
+    background-color: rgb(228, 131, 189);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    
+}
+.block_add{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 70vh;
+    height: 30vh;
+    background-color: rgb(208, 208, 208);
+    border: solid 1px rgb(178, 178, 178);
+    border-radius: 2vh;
+    margin-top: 20%;
+    padding: 2vh;
+}
+.title{
+    font-family: Inter;
+    font-size: 1.6vw;
+    padding: 2vh;
+}
+
+.order-button{
+    background-color: rgb(235,91,177);
+    font-family: Inter;
+    font-size: 1.4vw;
+    border: 1px solid rgb(235,91,177);
+    border-radius: 1vh;
+    height: 5vh;
+    width: 20vh;
+    color: white;
+    transition:  0.2s ease;
+    cursor: pointer;
+    margin-left: 35%;
+    
+}
+
+
+
+.input_address{
+    padding: 1vh;
+    border: 1px solid #ccc;
+    border-radius: 1vh;
+    width: 60vh;
+    background-color: #ffffff;
+    font-family: Inter;
+    font-size: 1vw;
+    padding-left: 30px;
+    transition:  0.4s ease;
+    margin-bottom: 2vh;
+}
+
+.input_address::placeholder{
+    font-family: Inter;
+    font-size: 1vw;
+    margin-left: 20px;
+}
+
+.input_address:focus {
+    outline: none;
+    border-color: #eb5bb1;
+    background-color: #f0f0f0;
+}
+.input_address:hover {
+    outline: none;
+    border-color: #eb5bb1;
+    background-color: #f0f0f0;
+}
+
+.error_message{
+    color: red;
+    font-weight: 500;
+    font-family: Inter;
+    font-size: 1vw;
+}

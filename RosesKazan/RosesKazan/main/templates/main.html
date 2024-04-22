@@ -43,7 +43,7 @@
                         {% endif %}
                     </div>
                     
-                    <a href="{% url 'cart_page' %}">
+                    <a href="{% url 'profile' %}">
                         <img class="links_block_img2" src="{% static 'images/profile_icon.png' %}" alt="">
                         <a href="{% url 'logout_view' %}">{{ request.user }}</a>
                     </a>
@@ -80,8 +80,13 @@
         
         {% block ad %}
         {% endblock %}
+
     </div>
 
+    
+    {% block profile %}
+    {% endblock %}
+    
     <div class="stocks" class="stocks">
         {% block cart %}
         {% endblock %}

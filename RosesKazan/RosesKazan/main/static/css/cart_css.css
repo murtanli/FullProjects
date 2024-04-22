@@ -210,3 +210,10 @@
     height: 100px;
     background-color: red;
 }
+
+.blank_title{
+    font-family: Inter;
+    font-size: 1.4vw;
+    width: 60vh;
+    height: 30vh;
+}

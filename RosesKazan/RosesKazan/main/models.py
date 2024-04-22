@@ -35,7 +35,12 @@ class Orders(models.Model):
     order_date = models.DateTimeField()
     arrival_time = models.DateTimeField(null=True, blank=True)
     price = models.FloatField(null=True, blank=True)
-    flowers = models.ManyToManyField(Flowers, related_name='bookmarked_by')
+    #flowers = models.ManyToManyField(Flowers, related_name='bookmarked_by', null=True, blank=True)
+
+class OrderFlower(models.Model):
+    order = models.ForeignKey(Orders, on_delete=models.CASCADE)
+    flower = models.ForeignKey(Flowers, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
 
 class Stocks(models.Model):
     flower = models.ForeignKey(Flowers, null=True, blank=True, on_delete=models.CASCADE)

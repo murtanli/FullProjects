@@ -1,9 +1,12 @@
 import json
+from datetime import timedelta
 
 from django.contrib import messages
 from django.db.models import Q
 from django.http import FileResponse, Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+
 from .forms import *
 from .models import *
 import uuid
@@ -102,7 +105,8 @@ def del_flower(request):
         flower_id = request.POST.get('flower_id')
         flower = get_object_or_404(Flowers, id=flower_id)
         try:
-            cart_item = CartItem.objects.get(user=request.user, flower=flower)
+            profile = Profile.objects.filter(user=request.user).first()
+            cart_item = CartItem.objects.get(profile=profile, flower=flower)
         except CartItem.DoesNotExist:
             return redirect('log_in_page')
         if cart_item.quantity > 1:
@@ -153,28 +157,108 @@ def cart_page(request):
     })
 
 def place_order(request):
-
-
     if request.method == 'POST':
-        print(request.POST.items)
         profile = Profile.objects.filter(user=request.user).first()
-        if profile.address is None:
-            messages.success(request, 'dfdfdf')
-            return render(request, 'message.html')
-        for key, value in request.POST.items():
-            if key.startswith('flower_'):
-                flower_id = key.split('_')[1]  # Получаем айди товара из ключа
-                quantity = value  # Количество товара
 
+        mas_flow = []
 
+        total_price = 0
 
-                cart = CartItem.objects.filter()
-                print(f'{flower_id} {quantity}')
-        return HttpResponse("Заказ успешно размещен")
+        if profile and profile.address is None:
+            return redirect('add_address')
+        else:
+            num = 0
+
+            for key, value in request.POST.items():
+                if key.startswith('flower_'):
+                    num += 1
+                    quantity = value
+
+                    if num == 1:
+                        flower = Flowers.objects.filter(id = quantity).first()
+                        profile = Profile.objects.filter(user=request.user).first()
+                        cart = CartItem.objects.get(flower=flower, profile=profile)
+
+                        mas_flow.append(quantity)
+
+                        if Discount.objects.filter(flower=flower):
+                            disc_flower = Discount.objects.get(flower=flower)
+                            #total_price += int(disc_flower.discount_price)
+                        """else:
+                            total_price += flower.price"""
+
+                    elif num == 2:
+                        mas_flow.append(quantity)
+                        num = 0
+                        cart.quantity = quantity
+                        cart.save()
+
+            for i in range(len(mas_flow)):
+                if i % 2 == 0:
+                    flower = Flowers.objects.get(id=mas_flow[i ])
+                    if Discount.objects.filter(flower=flower):
+                        disc_flower = Discount.objects.get(flower=flower)
+                        price = int(disc_flower.discount_price) * int(mas_flow[i + 1])
+                    else:
+                        price = int(flower.price) * int(mas_flow[i + 1])
+                    total_price += price
+
+            unique_order_number = False
+            while not unique_order_number:
+                order_number = str(uuid.uuid4())[:8]
+
+                if not Orders.objects.filter(order_number=order_number).exists():
+                    unique_order_number = True
+
+            time_now = timezone.now()
+            arrival_date = time_now + timedelta(minutes=60)
+            order = Orders.objects.create(
+                profile=profile,
+                order_number=order_number,
+                status="В сборке",
+                order_date=time_now,
+                arrival_time=arrival_date,
+                price=total_price
+            )
+
+            us_cart = CartItem.objects.filter(profile=profile)
+            for item in us_cart:
+                item.delete()
+
+            order.save()
+
+            num = 0
+            for i in range(len(mas_flow)):
+                num += 1
+                if num == 2:
+                    order_flow = OrderFlower.objects.create(
+                        order=order,
+                        flower=Flowers.objects.get(id=mas_flow[i-1]),
+                        quantity=int(mas_flow[i])
+                    )
+                    num = 0
+        return redirect('home')
     else:
         # В случае, если метод запроса не POST, вернуть ответ с кодом 405 (Метод не разрешен)
         return HttpResponse(status=405)
 
+def save_cart(request):
+    if request.method == 'POST':
+        address = request.POST.get('address')
+        if address[:6] != 'Казань':
+            error_message = 'Доставка доступна только в Казани.'
+            return render(request, 'add_address.html', {'error_message': error_message})
+        else:
+            profile = Profile.objects.filter(user=request.user).first()
+            profile.address = address
+            profile.save()
 
+            return redirect('home')
+    else:
+        return redirect('home')
+
+
+def add_address(request):
+    return render(request, 'add_address.html')
 
 
