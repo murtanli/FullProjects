@@ -218,7 +218,8 @@ def place_order(request):
                 status="В сборке",
                 order_date=time_now,
                 arrival_time=arrival_date,
-                price=total_price
+                price=total_price,
+                address=profile.address
             )
 
             us_cart = CartItem.objects.filter(profile=profile)
@@ -253,7 +254,7 @@ def save_cart(request):
             profile.address = address
             profile.save()
 
-            return redirect('home')
+            return redirect('cart_page')
     else:
         return redirect('home')
 

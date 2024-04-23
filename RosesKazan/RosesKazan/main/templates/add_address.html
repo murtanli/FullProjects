@@ -17,7 +17,7 @@
             <form id="order-form" action="{% url 'save_cart' %}" method="post">
                 {% csrf_token %}
                 <input class="input_address" name="address" value="Казань, " type="text" placeholder="Введите адрес доставки" maxlength="250">
-                <button type="submit" class="order-button">Заказать</button>
+                <button type="submit" class="order-button">Сохранить</button>
             </form>
         </div>
         <div class="error_message">

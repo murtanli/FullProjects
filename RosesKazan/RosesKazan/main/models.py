@@ -26,7 +26,8 @@ class Orders(models.Model):
         ('В сборке', 'В сборке'),
         ('Передается в доставку', 'Передается в доставку'),
         ('В пути', 'В пути'),
-        ('Доставлен', 'Доставлен')
+        ('На месте', 'На месте'),
+        ('Получен', 'Получен')
     )
 
     profile = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.CASCADE)
@@ -35,6 +36,7 @@ class Orders(models.Model):
     order_date = models.DateTimeField()
     arrival_time = models.DateTimeField(null=True, blank=True)
     price = models.FloatField(null=True, blank=True)
+    address = models.CharField(max_length=100, null=True, blank=True)
     #flowers = models.ManyToManyField(Flowers, related_name='bookmarked_by', null=True, blank=True)
 
 class OrderFlower(models.Model):

@@ -28,7 +28,7 @@
                         <p>Фамилия</p>
                         <input type="text" name="last_name" id="last_name" value="{{ profile_info.lastname }}">
                     </div>
-                    <div class="address">
+                    <div>
                         <p>Адресс</p>
                         <input type="text" name="address" id="address" value="{{ profile_info.address }}">
                     </div>
@@ -40,6 +40,104 @@
                 </form>  
             </div>
         </div>
+    </div>
+
+    <div class="orders_block">
+        <div class="title_orders">
+            <p>Заказы</p>
+        </div>
+
+        <div class="orders">
+        {% if orders_with_flowers %}
+            {% for order_with_flowers in orders_with_flowers %}
+                {% if order_with_flowers.order.status != "Получен" %}
+                    <div class="order">
+                        <div class="title_order">
+                            <p>Заказ от {{ order_with_flowers.order.order_date }}</p>
+                            <p style="color: #eb5bb1;">Номер заказа - {{ order_with_flowers.order.order_number }}</p>
+                        </div>
+                        <div class="order_info">
+                            <div class="address">
+                                <p>Доставка на адрес: {{ order_with_flowers.order.address }}</p>
+                                {% if order_with_flowers.order.status == "Получен" %}
+                                    <p class="status-dostavlen">{{ order_with_flowers.order.status }}</p>
+                                {% else %}
+                                    <p class="status-dostavka">{{ order_with_flowers.order.status }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="arrival_time">
+                                <p>Примерное время прибытия заказа: {{ order_with_flowers.order.arrival_time }}</p>
+                            </div>
+                            <div class="price">
+                                <p>Оплата наличными: {{ order_with_flowers.order.price|spacecomma }} руб</p>
+                            </div>
+                        </div>
+                        <div class="order_flowers">
+                            {% for flower in order_with_flowers.flowers %}
+                            <div class="flower">
+                                <img width="100vh" src="{% url 'get_flower_image' flower_id=flower.flower.id %}" alt="Flower Image">
+                                <p>{{ flower.flower.name }}</p>
+                                <p>| Количество - {{ flower.quantity }}</p>
+                            </div>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>Заказов нет, сделайте первый заказ !</p>
+        {% endif %}
+        </div>
+    </div>
+
+    <div class="orders_block-history">
+        <div class="title_orders-history">
+            <p>История заказов</p>
+        </div>
+
+        <div class="orders">
+            {{ message }}
+            {% if orders_with_flowers %}
+                {% for order_with_flowers in orders_with_flowers %}
+                    {% if "Получен" in order_with_flowers.order.status %}
+                            <div class="order">
+                                <div class="title_order">
+                                    <p>Заказ от {{ order_with_flowers.order.order_date }}</p>
+                                    <p style="color: #eb5bb1;">Номер заказа - {{ order_with_flowers.order.order_number }}</p>
+                                </div>
+                                <div class="order_info">
+                                    <div class="address">
+                                        <p>Доставка на адрес: {{ order_with_flowers.order.address }}</p>
+                                        {% if order_with_flowers.order.status == "Получен" %}
+                                            <p class="status-dostavlen">{{ order_with_flowers.order.status }}</p>
+                                        {% else %}
+                                            <p class="status-dostavka">{{ order_with_flowers.order.status }}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="arrival_time">
+                                        <p>Примерное время прибытия заказа: {{ order_with_flowers.order.arrival_time }}</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>Оплата наличными: {{ order_with_flowers.order.price|spacecomma }} руб</p>
+                                    </div>
+                                </div>
+                                <div class="order_flowers">
+                                    {% for flower in order_with_flowers.flowers %}
+                                        <div class="flower">
+                                            <img width="100vh" src="{% url 'get_flower_image' flower_id=flower.flower.id %}" alt="Flower Image">
+                                            <p>{{ flower.flower.name }}</p>
+                                            <p>| Количество - {{ flower.quantity }}</p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>Заказов нет, сделайте первый заказ !</p>
+            {% endif %}
+        </div>        
     </div>
 </div>
 
