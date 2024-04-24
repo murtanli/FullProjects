@@ -1,0 +1,92 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block bouquet_designer %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/bouquet_designer_css.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<div class="bouquet_create_block">
+    <div class="title">
+        <p>Онлайн конструктор</p>
+    </div>  
+    <div class="container">
+        <div class="customize">
+            <div class="flowers_block">
+                <div class="title_block">
+                    <p>Выберите цветы</p>
+                    <div class="strella" onclick="toggleBlockVisibility()"></div>
+                </div>
+                <div class="flower_content_block" id="flowercontentBlock">
+                    {% for flower in flowers %}
+                        <div class="flower_block">
+                            <img src="{% url 'get_flower_image_design' flower_id=flower.id  %}" alt="">
+                            <p class="name">{{ flower.name }}</p>
+                            <p class="quantity"> Кол-во {{ flower.quantity }}</p>
+                            <div class="button">
+                                <p class="button_text">Выбрать</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="greenery_block">
+                <div class="title_block">
+                    <p>Добавтьте зелень</p>
+                    <div class="strella" ></div>
+                </div>
+            </div>
+            <div class="packaging_block">
+                <div class="title_block">
+                    <p>Выберите оформление и упаковку</p>
+                    <div class="strella"></div>
+                </div>
+            </div>
+        </div>
+        <div class="total">
+
+        </div>
+    </div>
+    
+</div>
+
+<script>
+    function toggleBlockVisibility() {
+    var contentBlock = document.getElementById('flowercontentBlock');
+    var strella = document.querySelector('.strella');
+
+    if (contentBlock.classList.contains('hidden')) {
+        contentBlock.classList.remove('hidden');
+        contentBlock.classList.add('visible');
+        contentBlock.classList.add('flower_content_block_flex');
+        strella.classList.add('up');
+    } else {
+        contentBlock.classList.remove('visible');
+        contentBlock.classList.remove('flower_content_block_flex');
+        contentBlock.classList.add('hidden');
+        strella.classList.remove('up');
+    }
+
+    // $.ajax({
+    //     url: "/bouquet_designer/get_flowers",
+    //     type: "get",
+    //     success: function(response) {
+    //         document.getElementById('result').innerHTML = response;
+    //     },
+    //     error: function(xhr, errmsg, err) {
+    //         console.log(xhr.status + ": " + xhr.responsetext);
+    //     }
+    // });
+}
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var contentBlock = document.getElementById('flowercontentBlock');
+        var strella = document.querySelector('.strella');
+        contentBlock.classList.toggle('hidden');
+    });
+
+    
+
+</script>
+{% endblock %}

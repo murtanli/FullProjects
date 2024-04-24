@@ -38,7 +38,7 @@ def profile_page(request):
         if not name or not lastname or not address:
             # Один или несколько из полей не заполнены
             message = 'Заполните все поля!'
-            return render(request, 'profile.html', {'message': message, 'email': request.user.email, 'form': form, 'orders_with_flowers': orders_with_flowers, 'message': message})
+            return render(request, 'profile.html', {'message': message, 'email': request.user.email, 'form': form, 'orders_with_flowers': orders_with_flowers, 'message_hist': message})
         else:
             profile.name=name
             profile.lastname=lastname
@@ -48,7 +48,7 @@ def profile_page(request):
     if not profile.name or not profile.lastname or not profile.address:
         # Если какое-то из полей не заполнено, показываем сообщение об ошибке
         message = 'Заполните все поля!'
-        return render(request, 'profile.html', {'message': message, 'email': request.user.email, 'form': form, 'orders_with_flowers': orders_with_flowers, 'message': message})
+        return render(request, 'profile.html', {'message': message, 'email': request.user.email, 'form': form, 'orders_with_flowers': orders_with_flowers, 'message_hist': message})
     else:
         # Поля профиля заполнены, показываем данные профиля
         profile_info = {
@@ -56,6 +56,6 @@ def profile_page(request):
             'lastname': profile.lastname,
             'address': profile.address,
         }
-        return render(request, 'profile.html', {'profile_info': profile_info, 'email': request.user.email, 'form': form, 'orders_with_flowers': orders_with_flowers, 'message': message})
+        return render(request, 'profile.html', {'profile_info': profile_info, 'email': request.user.email, 'form': form, 'orders_with_flowers': orders_with_flowers, 'message_hist': message})
 
 

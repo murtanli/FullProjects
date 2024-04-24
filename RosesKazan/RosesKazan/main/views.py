@@ -45,7 +45,7 @@ def main_page(request):
             except:
                 result = "Не найдено"
                 form = SearchForm()
-            return render(request, "results.html", {"all_cart_items": cart_item_ids, 'form': form,'flowers': result, 'title': 'Главная страница'})
+            return render(request, "results.html", {"all_cart_items": cart_item_ids,"discounts": discounts,"disc_flowers": disc_flowers, 'form': form,'flowers': result, 'title': 'Главная страница'})
         else:
             form = SearchForm()
 
@@ -57,7 +57,8 @@ def main_page(request):
         "chrysanthemums": chrysanthemums,
         "discounts": discounts,
         "low_price": low_price,
-        "all_cart_items": cart_item_ids
+        "all_cart_items": cart_item_ids,
+        "disc_flowers": disc_flowers
     })
 
 def get_flower_image(request, flower_id):

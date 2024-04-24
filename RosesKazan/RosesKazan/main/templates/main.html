@@ -70,7 +70,7 @@
             <a href="{% url 'home' %}#low_price">
                 Букеты до 2500 руб
             </a>
-            <a href="">
+            <a href="{% url 'create_bouquet' %}">
                 Собери свой букет !
             </a>
         </div>
@@ -87,6 +87,9 @@
     {% block profile %}
     {% endblock %}
     
+    {% block bouquet_designer %}
+    {% endblock %}
+
     <div class="stocks" class="stocks">
         {% block cart %}
         {% endblock %}

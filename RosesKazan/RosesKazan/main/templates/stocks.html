@@ -8,7 +8,7 @@
 </head>
 <div class="block_ad">
     
-    <a href="">
+    <a href="{% url 'create_bouquet' %}">
         <img src="{% static 'images/ad.png' %}" alt="">
         <p>Не знаете что подарить своей девушке ? 
             Собери букет который ей точно понравится !</p>
@@ -25,47 +25,94 @@
 
 <div class="stocks_blocks">
     {% for flower in flowers %}
-    <a href="" class="flower_block">
-        <img src="{% url 'get_flower_image' flower_id=flower.id %}" alt="Flower Image">
-        <p class="title_flower">
-
-            {{ flower.name }}
-
-        </p>
-        <div class="flower_info">
-            <p class="flower_avail">Всего - {{ flower.free_flowers }} штук</p>
-            <p class="flower_price">Цена - {{ flower.price|spacecomma }} руб</p>
-            
-        
-
-            {% if request.user.is_authenticated %}
-                {% if all_cart_items %}
-                    {% if flower.id in all_cart_items %}
-                        <form action="{% url 'del_to_cart' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="flower_id" value="{{ flower.id }}">
-                            <button class="del_flower">Удалить</button>
-                        </form>
-                    {% else %}
-                        <form action="{% url 'add_to_cart' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="flower_id" value="{{ flower.id }}">
-                            <button class="add_flower">Заказать</button>
-                        </form>
-                    {% endif %}
-                {% else %}
-                    <form action="{% url 'add_to_cart' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="flower_id" value="{{ flower.id }}">
-                        <button class="add_flower">Заказать</button>
-                    </form>
+        {% if flower in disc_flowers %}
+            {% for item in discounts %}
+                {% if flower.id == item.flower.id %}
+                    <!-- <p>{{item.discount_price}}</p> -->
+                    <div class="stocks_blocks">
+                        <div class="flower_block">
+                            <img src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="Flower Image">
+                            <p class="title_flower">
+                                {{ item.flower.name }}
+                            </p>
+                            <div class="flower_info">
+                                <p class="flower_avail">Всего - {{ item.flower.free_flowers }} штук</p>
+                                <p class="disount_price">{{ item.flower.price|spacecomma }} руб</p>
+                                <p class="flower_price">Цена - {{ item.discount_price|spacecomma }} руб</p>
+                                
+                                {% if request.user.is_authenticated %}
+                                    {% if all_cart_items %}
+                                        {% if item.flower.id in all_cart_items %}
+                                            <form action="{% url 'del_to_cart' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                                <button class="del_flower">Удалить</button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% url 'add_to_cart' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                                <button class="add_flower">Заказать</button>
+                                            </form>
+                                        {% endif %}
+                                    {% else %}
+                                        <form action="{% url 'add_to_cart' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                            <button class="add_flower">Заказать</button>
+                                        </form>
+                                    {% endif %}
+                                {% else %}
+                                    <button class="add_flower" onclick="alert_reg()">Заказать</button>
+                                {% endif %}
+                
+                            </div>
+                        </div>
+                    </div>
                 {% endif %}
-            {% else %}
-                <button class="add_flower" onclick="alert_reg()">Заказать</button>
-            {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="flower_block">
+                <img src="{% url 'get_flower_image' flower_id=flower.id %}" alt="Flower Image">
+                <p class="title_flower">
 
-        </div>
-    </a>
+                    {{ flower.name }}
+
+                </p>
+                <div class="flower_info">
+                    <p class="flower_avail">Всего - {{ flower.free_flowers }} штук</p>
+                    <p class="flower_price">Цена - {{ flower.price|spacecomma }} руб</p>
+                    
+                    {% if request.user.is_authenticated %}
+                        {% if all_cart_items %}
+                            {% if flower.id in all_cart_items %}
+                                <form action="{% url 'del_to_cart' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="flower_id" value="{{ flower.id }}">
+                                    <button class="del_flower">Удалить</button>
+                                </form>
+                            {% else %}
+                                <form action="{% url 'add_to_cart' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="flower_id" value="{{ flower.id }}">
+                                    <button class="add_flower">Заказать</button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <form action="{% url 'add_to_cart' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="flower_id" value="{{ flower.id }}">
+                                <button class="add_flower">Заказать</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <button class="add_flower" onclick="alert_reg()">Заказать</button>
+                    {% endif %}
+
+                </div>
+            </div>
+        {% endif %}
+        
 {% endfor %}
 </div>
 
@@ -80,11 +127,59 @@
 <div class="rose">
 {% for rose in roses %}
     {% if rose.category == "Розы" %}
-        <div class="stocks_blocks">
+        {% if rose in disc_flowers %}
+            {% for item in discounts %}
+                {% if rose.id == item.flower.id %}
+                    <!-- <p>{{item.discount_price}}</p> -->
+                    <div class="stocks_blocks">
+                        <div class="flower_block">
+                            <img src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="Flower Image">
+                            <p class="title_flower">
+                                {{ item.flower.name }}
+                            </p>
+                            <div class="flower_info">
+                                <p class="flower_avail">Всего - {{ item.flower.free_flowers }} штук</p>
+                                <p class="disount_price">{{ item.flower.price|spacecomma }} руб</p>
+                                <p class="flower_price">Цена - {{ item.discount_price|spacecomma }} руб</p>
+                                
+                                {% if request.user.is_authenticated %}
+                                    {% if all_cart_items %}
+                                        {% if item.flower.id in all_cart_items %}
+                                            <form action="{% url 'del_to_cart' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                                <button class="del_flower">Удалить</button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% url 'add_to_cart' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                                <button class="add_flower">Заказать</button>
+                                            </form>
+                                        {% endif %}
+                                    {% else %}
+                                        <form action="{% url 'add_to_cart' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                            <button class="add_flower">Заказать</button>
+                                        </form>
+                                    {% endif %}
+                                {% else %}
+                                    <button class="add_flower" onclick="alert_reg()">Заказать</button>
+                                {% endif %}
+                
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
             <div class="flower_block">
                 <img src="{% url 'get_flower_image' flower_id=rose.id %}" alt="Flower Image">
                 <p class="title_flower">
+
                     {{ rose.name }}
+
                 </p>
                 <div class="flower_info">
                     <p class="flower_avail">Всего - {{ rose.free_flowers }} штук</p>
@@ -118,7 +213,7 @@
 
                 </div>
             </div>
-        </div>
+        {% endif %}
     {% endif %}
 {% endfor %}
 </div>
@@ -131,11 +226,59 @@
 <div class="chrysanthemum">
 {% for chrysanthemum in chrysanthemums %}
     {% if chrysanthemum.category == "Хризантемы" %}
-        <div class="stocks_blocks">
+        {% if chrysanthemum in disc_flowers %}
+            {% for item in discounts %}
+                {% if chrysanthemum.id == item.flower.id %}
+                    <!-- <p>{{item.discount_price}}</p> -->
+                    <div class="stocks_blocks">
+                        <div class="flower_block">
+                            <img src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="Flower Image">
+                            <p class="title_flower">
+                                {{ item.flower.name }}
+                            </p>
+                            <div class="flower_info">
+                                <p class="flower_avail">Всего - {{ item.flower.free_flowers }} штук</p>
+                                <p class="disount_price">{{ item.flower.price|spacecomma }} руб</p>
+                                <p class="flower_price">Цена - {{ item.discount_price|spacecomma }} руб</p>
+                                
+                                {% if request.user.is_authenticated %}
+                                    {% if all_cart_items %}
+                                        {% if item.flower.id in all_cart_items %}
+                                            <form action="{% url 'del_to_cart' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                                <button class="del_flower">Удалить</button>
+                                            </form>
+                                        {% else %}
+                                            <form action="{% url 'add_to_cart' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                                <button class="add_flower">Заказать</button>
+                                            </form>
+                                        {% endif %}
+                                    {% else %}
+                                        <form action="{% url 'add_to_cart' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                            <button class="add_flower">Заказать</button>
+                                        </form>
+                                    {% endif %}
+                                {% else %}
+                                    <button class="add_flower" onclick="alert_reg()">Заказать</button>
+                                {% endif %}
+                
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
             <div class="flower_block">
                 <img src="{% url 'get_flower_image' flower_id=chrysanthemum.id %}" alt="Flower Image">
                 <p class="title_flower">
+
                     {{ chrysanthemum.name }}
+
                 </p>
                 <div class="flower_info">
                     <p class="flower_avail">Всего - {{ chrysanthemum.free_flowers }} штук</p>
@@ -167,10 +310,9 @@
                         <button class="add_flower" onclick="alert_reg()">Заказать</button>
                     {% endif %}
 
-
                 </div>
             </div>
-        </div>
+        {% endif %}
     {% endif %}
 {% endfor %}
 </div>
@@ -233,31 +375,72 @@
 <p class="stocks_title">Букеты до 2500 руб</p>
 <div class="low_price">
 {% for flow in low_price %}
-    <div class="stocks_blocks">
-        <div class="flower_block">
-            <img src="{% url 'get_flower_image' flower_id=flow.id %}" alt="Flower Image">
-            <p class="title_flower">
-                {{ flow.name }}
-            </p>
-            <div class="flower_info">
-                <p class="flower_avail">Всего - {{ flow.free_flowers }} штук</p>
-                <p class="flower_price">Цена - {{ flow.price |spacecomma }} руб</p>
-                
-                {% if request.user.is_authenticated %}
-                    {% if all_cart_items %}
-                        {% if flow.id in all_cart_items %}
-                            <form action="{% url 'del_to_cart' %}" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="flower_id" value="{{ flow.id }}">
-                                <button class="del_flower">Удалить</button>
-                            </form>
-                        {% else %}
-                            <form action="{% url 'add_to_cart' %}" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" name="flower_id" value="{{ flow.id }}">
-                                <button class="add_flower">Заказать</button>
-                            </form>
-                        {% endif %}
+    {% if flow in disc_flowers %}
+        {% for item in discounts %}
+            {% if flow.id == item.flower.id %}
+                <!-- <p>{{item.discount_price}}</p> -->
+                <div class="stocks_blocks">
+                    <div class="flower_block">
+                        <img src="{% url 'get_flower_image' flower_id=item.flower.id %}" alt="Flower Image">
+                        <p class="title_flower">
+                            {{ item.flower.name }}
+                        </p>
+                        <div class="flower_info">
+                            <p class="flower_avail">Всего - {{ item.flower.free_flowers }} штук</p>
+                            <p class="disount_price">{{ item.flower.price|spacecomma }} руб</p>
+                            <p class="flower_price">Цена - {{ item.discount_price|spacecomma }} руб</p>
+                            
+                            {% if request.user.is_authenticated %}
+                                {% if all_cart_items %}
+                                    {% if item.flower.id in all_cart_items %}
+                                        <form action="{% url 'del_to_cart' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                            <button class="del_flower">Удалить</button>
+                                        </form>
+                                    {% else %}
+                                        <form action="{% url 'add_to_cart' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                            <button class="add_flower">Заказать</button>
+                                        </form>
+                                    {% endif %}
+                                {% else %}
+                                    <form action="{% url 'add_to_cart' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="flower_id" value="{{ item.flower.id }}">
+                                        <button class="add_flower">Заказать</button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <button class="add_flower" onclick="alert_reg()">Заказать</button>
+                            {% endif %}
+            
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+    <div class="flower_block">
+        <img src="{% url 'get_flower_image' flower_id=flow.id %}" alt="Flower Image">
+        <p class="title_flower">
+
+            {{ flow.name }}
+
+        </p>
+        <div class="flower_info">
+            <p class="flower_avail">Всего - {{ flow.free_flowers }} штук</p>
+            <p class="flower_price">Цена - {{ flow.price|spacecomma }} руб</p>
+            
+            {% if request.user.is_authenticated %}
+                {% if all_cart_items %}
+                    {% if flow.id in all_cart_items %}
+                        <form action="{% url 'del_to_cart' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="flower_id" value="{{ flow.id }}">
+                            <button class="del_flower">Удалить</button>
+                        </form>
                     {% else %}
                         <form action="{% url 'add_to_cart' %}" method="post">
                             {% csrf_token %}
@@ -266,12 +449,19 @@
                         </form>
                     {% endif %}
                 {% else %}
-                    <button class="add_flower" onclick="alert_reg()">Заказать</button>
+                    <form action="{% url 'add_to_cart' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="flower_id" value="{{ flow.id }}">
+                        <button class="add_flower">Заказать</button>
+                    </form>
                 {% endif %}
+            {% else %}
+                <button class="add_flower" onclick="alert_reg()">Заказать</button>
+            {% endif %}
 
-            </div>
         </div>
     </div>
+    {% endif %}
 {% endfor %}
 </div>
 <script>

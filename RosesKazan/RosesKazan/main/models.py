@@ -52,3 +52,30 @@ class CartItem(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
     flower = models.ForeignKey(Flowers, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+
+
+
+
+
+class Flower_design(models.Model):
+    flower_image = models.ImageField(upload_to='flowers_design/', blank=True, null=True)
+    name = models.CharField(max_length=100)
+    quantity = models.IntegerField(null=True, blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+class Greenery_design(models.Model):
+    greenery_design_image = models.ImageField(upload_to='greenery_design/', blank=True, null=True)
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+class Packaging(models.Model):
+    packaging_design_image = models.ImageField(upload_to='packaging_design/', blank=True, null=True)
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+class Bouquet(models.Model):
+    order = models.ForeignKey(Orders,on_delete=models.CASCADE, blank=True )
+    flowers = models.ManyToManyField(Flower_design, blank=True)
+    greenery = models.ManyToManyField(Greenery_design, blank=True)
+    packaging = models.ForeignKey(Packaging,on_delete=models.CASCADE, blank=True)
+    total_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)

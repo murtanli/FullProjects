@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'auth_sites.apps.AuthSitesConfig',
     'django.contrib.humanize',
     'profiles.apps.ProfilesConfig',
+    'bouquet_designer.apps.BouquetDesignerConfig',
 
 ]
 

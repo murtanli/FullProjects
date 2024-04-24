@@ -46,7 +46,7 @@
 .flower_price {
     font-family: Inter;
     font-weight: 600;
-    color: #9A9A9A;
+    color: #464646;
     line-height: 5px;
 }
 
@@ -74,4 +74,38 @@
     color: rgb(0, 0, 0);
     transition:  0.2s ease;
     cursor: pointer;
+}
+
+.disount_price{
+    font-family: Inter;
+    position: absolute;
+    width: 200px;
+    font-weight: 600;
+    color: #6b6b6b;
+    margin-left: 65px;
+    line-height: 5px;
+    margin-top: 0px;
+    font-size: 15px;
+}
+
+
+.line_price{
+    color: red;
+    
+}
+
+
+.line-through {
+    position: relative;
+}
+
+.disount_price:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 37%;
+    height: 2px;
+    background-color: red; 
+    transform: rotate(-5deg);
 }

@@ -69,7 +69,7 @@
                                 <p>Примерное время прибытия заказа: {{ order_with_flowers.order.arrival_time }}</p>
                             </div>
                             <div class="price">
-                                <p>Оплата наличными: {{ order_with_flowers.order.price|spacecomma }} руб</p>
+                                <p>Оплата наличными либо картой: {{ order_with_flowers.order.price|spacecomma }} руб</p>
                             </div>
                         </div>
                         <div class="order_flowers">
@@ -86,7 +86,9 @@
                 {% endif %}
             {% endfor %}
         {% else %}
-            <p>Заказов нет, сделайте первый заказ !</p>
+            <div class="empty_orders">
+                <p>Заказов нет, сделайте первый заказ !</p>
+            </div>
         {% endif %}
         </div>
     </div>
@@ -97,7 +99,10 @@
         </div>
 
         <div class="orders">
-            {{ message }}
+            <div class="empty_orders_history">
+                <p>{{ message_hist }}</p>
+            </div>
+            
             {% if orders_with_flowers %}
                 {% for order_with_flowers in orders_with_flowers %}
                     {% if "Получен" in order_with_flowers.order.status %}
@@ -119,7 +124,7 @@
                                         <p>Примерное время прибытия заказа: {{ order_with_flowers.order.arrival_time }}</p>
                                     </div>
                                     <div class="price">
-                                        <p>Оплата наличными: {{ order_with_flowers.order.price|spacecomma }} руб</p>
+                                        <p>Оплата наличными либо картой: {{ order_with_flowers.order.price|spacecomma }} руб</p>
                                     </div>
                                 </div>
                                 <div class="order_flowers">
@@ -134,8 +139,6 @@
                             </div>
                     {% endif %}
                 {% endfor %}
-            {% else %}
-                <p>Заказов нет, сделайте первый заказ !</p>
             {% endif %}
         </div>        
     </div>

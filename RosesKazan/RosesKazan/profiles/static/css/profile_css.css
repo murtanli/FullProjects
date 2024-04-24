@@ -205,3 +205,16 @@
     font-family: Inter;
     font-size: 1.3vw;
 }
+
+.empty_orders_history{
+    font-family: Inter;
+    padding: 2vh;
+    font-size: 1.3vw;
+    text-align: center;
+}
+.empty_orders{
+    font-family: Inter;
+    padding: 2vh;
+    font-size: 1.3vw;
+    text-align: center;
+}

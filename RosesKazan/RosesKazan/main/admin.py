@@ -53,3 +53,49 @@ class StocksAdmin(admin.ModelAdmin):
 @admin.register(OrderFlower)
 class OrderFlowerAdmin(admin.ModelAdmin):
     list_display = ('pk', 'flower', 'quantity')
+
+
+@admin.register(Flower_design)
+class Flower_designAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'image_preview', 'name', 'price', 'quantity')
+
+    def image_preview(self, obj):
+        # Отображение изображения в админке
+        if obj.flower_image:
+            flower_id = obj.pk
+            url = reverse('get_flower_image_design', args=[flower_id])
+            return format_html('<img src="{}" alt="Image" style="max-width: 100px; max-height: 100px;" />', url)
+        return None
+
+    image_preview.short_description = 'Image Preview'
+
+@admin.register(Greenery_design)
+class Greenery_designAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'image_preview', 'name', 'price')
+
+    def image_preview(self, obj):
+        # Отображение изображения в админке
+        if obj.greenery_design_image:
+            greenery_id = obj.pk
+            url = reverse('get_greenery_image_design', args=[greenery_id])
+            return format_html('<img src="{}" alt="Image" style="max-width: 100px; max-height: 100px;" />', url)
+        return None
+
+    image_preview.short_description = 'Image Preview'
+
+@admin.register(Packaging)
+class PackagingAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'image_preview', 'name', 'price')
+    def image_preview(self, obj):
+        # Отображение изображения в админке
+        if obj.packaging_design_image:
+            packaging_id = obj.pk
+            url = reverse('get_packaging_image_design', args=[packaging_id])
+            return format_html('<img src="{}" alt="Image" style="max-width: 100px; max-height: 100px;" />', url)
+        return None
+
+    image_preview.short_description = 'Image Preview'
+
+@admin.register(Bouquet)
+class BouquetAdmin(admin.ModelAdmin):
+    list_display = ('pk',)
