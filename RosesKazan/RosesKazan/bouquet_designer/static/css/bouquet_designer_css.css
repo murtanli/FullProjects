@@ -15,14 +15,17 @@
 .bouquet_create_block{
     margin-left: 30vh;
     width: 140vh;
+    margin-bottom: 50vh;
 }
 .total{
+    position:absolute;
     width: 40vh;
-    
+    height: 60vh;
+    margin-left: 110vh;
     /* background-color: rgb(243, 243, 243); */
     box-shadow: 1px 1px 3px 1px  rgb(202, 202, 202);
     border-radius: 2vh;
-
+    margin-bottom: 70vh;
 }
 .container{
     display: flex;
@@ -40,21 +43,23 @@
 }
 .flowers_block{
     width: 100%;
+    
     border: 1px solid rgb(178, 178, 178);
     border-radius: 2vh;
 }
-.greenery_block{
+.greenerys_block{
     width: 100%;
-    height: 6vh;
+    
     border: 1px solid rgb(178, 178, 178);
     border-radius: 2vh;
 }
 .packaging_block{
     width: 100%;
-    height: 6vh;
+    
     border: 1px solid rgb(178, 178, 178);
     border-radius: 2vh;
 }
+
 
 .title_block{
     display: flex;
@@ -75,6 +80,28 @@
     margin-left: 10px;
     cursor: pointer;
     transition: transform 0.2s ease;
+}
+.strella-gr {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid #1c1c1c;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.strella-gr.up {
+    transform: rotate(180deg);
+}
+.strella-pk {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid #1c1c1c;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.strella-pk.up {
+    transform: rotate(180deg);
 }
 
 .strella.up {
@@ -107,7 +134,7 @@
     animation: slideIn 0.5s ease forwards;
 }
 .flower_block{
-    width: 15vh;
+    width: 16vh;
     /* border: 1px solid #eb5bb1;
     border-radius: 2vh; */
 }
@@ -147,4 +174,103 @@
     font-family: Inter;
     font-size: 0.8vw;
     color: #838383;
+}
+
+.selected{
+    border: 1px solid #eb5bb1;
+    border-radius: 2vh;
+}
+.selected_button{
+    background-color: #eb5bb1;
+    color: white;
+    font-family: Inter;
+    font-size: 2vh;
+}
+
+.sum{
+    display: flex;
+    font-family: Inter;
+    font-weight: 600;
+    font-size: 1vw;
+    width: 90%;
+    height: 5vh;
+    margin-left: 2vh;
+    justify-content: space-between;
+    gap: 2vh;
+    margin-top: 2vh;
+}
+.sum_text{
+    font-family: Inter;
+    font-size: 1vw;
+    padding: 2.2vh;
+    font-weight: 500;
+}
+
+.cart{
+    margin-left: 2vh;
+}
+.cart_title{
+    font-family: Inter;
+    font-size: 0.9vw;
+    font-weight: 600;
+} 
+
+.cart_items p{
+    font-family: Inter;
+    font-size: 0.9vw;
+}
+.cart_items{
+   
+}
+.item{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.greenery_content_block_flex{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10vh;
+}
+.greenery_content_block {
+    margin-left: 1vh;
+    width: 100%;
+    padding: 10px;
+    animation: slideIn 0.5s ease forwards;
+}
+
+.greenery_block img{
+    width: 15vh;
+    border-radius: 3vh;
+}
+.greenery_block{
+    width: 16vh;
+    /* border: 1px solid #eb5bb1;
+    border-radius: 2vh; */
+}
+
+
+.package_content_block_flex{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10vh;
+}
+.package_content_block {
+    margin-left: 1vh;
+    width: 100%;
+    padding: 10px;
+    animation: slideIn 0.5s ease forwards;
+}
+
+.package_block img{
+    width: 15vh;
+    border-radius: 3vh;
+}
+.package_block{
+    width: 16vh;
+    /* border: 1px solid #eb5bb1;
+    border-radius: 2vh; */
 }

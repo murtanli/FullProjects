@@ -19,10 +19,10 @@
                 </div>
                 <div class="flower_content_block" id="flowercontentBlock">
                     {% for flower in flowers %}
-                        <div class="flower_block">
+                        <div class="flower_block" data-flower-price="{{ flower.price }}" data-flower-id="{{ flower.id }}">
                             <img src="{% url 'get_flower_image_design' flower_id=flower.id  %}" alt="">
                             <p class="name">{{ flower.name }}</p>
-                            <p class="quantity"> Кол-во {{ flower.quantity }}</p>
+                            <p class="quantity"> Кол-во {{ flower.quantity }} штук</p>
                             <div class="button">
                                 <p class="button_text">Выбрать</p>
                             </div>
@@ -30,30 +30,193 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="greenery_block">
+            <div class="greenerys_block">
                 <div class="title_block">
-                    <p>Добавтьте зелень</p>
-                    <div class="strella" ></div>
+                    <p>Добавьте зелень</p>
+                    <div class="strella-gr" onclick="toggleBlockVisibility_greenery()"></div>
+                </div>
+                <div class="greenery_content_block" id="greenerycontentBlock">
+                    {% for greenery in greenerys %}
+                        <div class="greenery_block" data-greenery-price="{{ greenery.price }}" data-greenery-id="{{ greenery.id }}">
+                            <img src="{% url 'get_greenery_image_design' greenery_id=greenery.id  %}" alt="">
+                            <p class="name">{{ greenery.name }}</p>
+                            <div class="button">
+                                <p class="button_text">Выбрать</p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="packaging_block">
                 <div class="title_block">
                     <p>Выберите оформление и упаковку</p>
-                    <div class="strella"></div>
+                    <div class="strella-pk" onclick="toggleBlockVisibility_package()"></div>
+                </div>
+                <div class="package_content_block" id="packaingcontentBlock">
+                    {% for package in packaging %}
+                        <div class="package_block" data-package-price="{{ package.price }}" data-package-id="{{ package.id }}">
+                            <img src="{% url 'get_packaging_image_design' packaging_id=package.id  %}" alt="">
+                            <p class="name">{{ package.name }}</p>
+                            <div class="button">
+                                <p class="button_text">Выбрать</p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
         <div class="total">
+            <div class="sum">
+                <p>Ваш букет:</p>
+                <div class="sum_text">0 руб</div>
+            </div>
+            <div class="cart">
+                <p class="cart_title">Состав букета</p>
+                <div class="cart_items">
 
+                </div>
+            </div>
         </div>
     </div>
     
 </div>
 
 <script>
-    function toggleBlockVisibility() {
+    var sum = 0
+    var selectedFlowerIds = [];
+    var selectedGreenery = [];
+    var selectedPackade = [];
+//packaging block
+function toggleBlockVisibility_package() {
+    var contentBlock = document.getElementById('packaingcontentBlock');
+    var strella = document.querySelector('.strella-pk');
+    var buttons = document.querySelectorAll('.package_content_block .button');
+    
+    buttons.forEach(button => {
+        button.removeEventListener('click', handleClick_pk);
+        button.addEventListener('click', handleClick_pk);
+    });
+
+    if (contentBlock.classList.contains('hidden')) {
+        contentBlock.classList.remove('hidden');
+        contentBlock.classList.add('visible');
+        contentBlock.classList.add('package_content_block_flex');
+        strella.classList.add('up');
+    } else {
+        contentBlock.classList.remove('visible');
+        contentBlock.classList.remove('package_content_block_flex');
+        contentBlock.classList.add('hidden');
+        strella.classList.remove('up');
+    }
+}
+
+function handleClick_pk(event) {
+    var packageBlock = event.target.closest('.package_block'); 
+    var button = event.target.closest('.button');
+    var name = packageBlock.querySelector('.name').innerText;
+
+    var packageId = packageBlock.dataset.packageId;
+    var packageprice = packageBlock.dataset.packagePrice;
+
+
+    if (button.innerText == "Удалить"){
+        var index = selectedPackade.indexOf(packageId);
+        packageBlock.classList.remove('selected');
+        button.classList.remove('selected_button');
+        button.classList.add('button_text');
+        button.innerText = "Выбрать";
+        selectedPackade.splice(index, 1);
+        console.log(selectedPackade);
+        minus_sumfunc(packageprice);
+        del_item(name, packageprice);
+
+    } else {
+        var index = selectedPackade.indexOf(packageId);
+        if (selectedPackade.length != 1){
+            selectedPackade.push(packageId);
+            packageBlock.classList.add('selected');
+            button.classList.add('selected_button');
+            button.innerText = "Удалить";
+            add_item(name, packageprice);
+            plus_sumfunc(packageprice);
+        } else {
+            alert('Добавленно максимально количество украшений')
+        }
+        console.log(selectedPackade);
+    }
+}
+
+
+//greenerys block
+function toggleBlockVisibility_greenery() {
+    var contentBlock = document.getElementById('greenerycontentBlock');
+    var strella = document.querySelector('.strella-gr');
+    var buttons = document.querySelectorAll('.greenery_block .button');
+    
+    buttons.forEach(button => {
+        button.removeEventListener('click', handleClick_gr);
+        button.addEventListener('click', handleClick_gr);
+    });
+
+    if (contentBlock.classList.contains('hidden')) {
+        contentBlock.classList.remove('hidden');
+        contentBlock.classList.add('visible');
+        contentBlock.classList.add('greenery_content_block_flex');
+        strella.classList.add('up');
+    } else {
+        contentBlock.classList.remove('visible');
+        contentBlock.classList.remove('greenery_content_block_flex');
+        contentBlock.classList.add('hidden');
+        strella.classList.remove('up');
+    }
+}
+
+function handleClick_gr(event) {
+    var greeneryBlock = event.target.closest('.greenery_block'); 
+    var button = event.target.closest('.button');
+    var name = greeneryBlock.querySelector('.name').innerText;
+
+    var greeneryId = greeneryBlock.dataset.greeneryId;
+    var greeneryprice = greeneryBlock.dataset.greeneryPrice;
+
+
+    if (button.innerText == "Удалить"){
+        var index = selectedGreenery.indexOf(greeneryId);
+        greeneryBlock.classList.remove('selected');
+        button.classList.remove('selected_button');
+        button.classList.add('button_text');
+        button.innerText = "Выбрать";
+        selectedGreenery.splice(index, 1);
+        console.log(selectedGreenery);
+        minus_sumfunc(greeneryprice);
+        del_item(name, greeneryprice);
+
+    } else {
+        var index = selectedGreenery.indexOf(greeneryId);
+        if (selectedGreenery.length != 2){
+            selectedGreenery.push(greeneryId);
+            greeneryBlock.classList.add('selected');
+            button.classList.add('selected_button');
+            button.innerText = "Удалить";
+            add_item(name, greeneryprice);
+            plus_sumfunc(greeneryprice);
+        } else {
+            alert('Добавленно максимально количество украшений')
+        }
+        console.log(selectedGreenery);
+    }
+}
+
+//Flower block
+function toggleBlockVisibility() {
     var contentBlock = document.getElementById('flowercontentBlock');
     var strella = document.querySelector('.strella');
+    var buttons = document.querySelectorAll('.flower_block .button');
+    
+    buttons.forEach(button => {
+        button.removeEventListener('click', handleClick); // Удаляем предыдущий обработчик
+        button.addEventListener('click', handleClick); // Добавляем новый обработчик
+    });
 
     if (contentBlock.classList.contains('hidden')) {
         contentBlock.classList.remove('hidden');
@@ -66,25 +229,89 @@
         contentBlock.classList.add('hidden');
         strella.classList.remove('up');
     }
+}
 
-    // $.ajax({
-    //     url: "/bouquet_designer/get_flowers",
-    //     type: "get",
-    //     success: function(response) {
-    //         document.getElementById('result').innerHTML = response;
-    //     },
-    //     error: function(xhr, errmsg, err) {
-    //         console.log(xhr.status + ": " + xhr.responsetext);
-    //     }
-    // });
+function handleClick(event) {
+    var flowerBlock = event.target.closest('.flower_block'); 
+    var button = event.target.closest('.button');
+    var name = flowerBlock.querySelector('.name').innerText;
+
+    var flowerId = flowerBlock.dataset.flowerId;
+    var flowerprice = flowerBlock.dataset.flowerPrice;
+
+
+    if (button.innerText == "Удалить"){
+        var index = selectedFlowerIds.indexOf(flowerId);
+        flowerBlock.classList.remove('selected');
+        button.classList.remove('selected_button');
+        button.classList.add('button_text');
+        button.innerText = "Выбрать";
+        selectedFlowerIds.splice(index, 1);
+        console.log(selectedFlowerIds);
+        minus_sumfunc(flowerprice);
+        del_item(name, flowerprice);
+
+    } else {
+        var index = selectedFlowerIds.indexOf(flowerId);
+        if (selectedFlowerIds.length != 4){
+            selectedFlowerIds.push(flowerId);
+            flowerBlock.classList.add('selected');
+            button.classList.add('selected_button');
+            button.innerText = "Удалить";
+            add_item(name, flowerprice);
+            plus_sumfunc(flowerprice);
+        } else {
+            alert('Добавленно максимально количество цветов')
+        }
+        console.log(selectedFlowerIds);
+    }
+}
+
+function plus_sumfunc(num) {
+    var blocktotal = document.querySelectorAll('.total');
+    var sum_text = document.querySelector('.sum_text');
+
+    sum += parseInt(num)
+    sum_text.textContent = sum + ' руб'
+    
+}
+function minus_sumfunc(num) {
+    var blocktotal = document.querySelectorAll('.total');
+    var sum_text = document.querySelector('.sum_text');
+    sum -= parseInt(num)
+    sum_text.textContent = sum + ' руб'
+
+}
+
+function add_item(name, price) {
+    var cart = document.querySelector('.cart_items');
+    var item = document.createElement('div');
+    item.classList.add('item');
+    item.innerHTML = '<p>' + name + '</p><p>' + price + ' руб' + '</p>';
+    cart.appendChild(item);
+}
+function del_item(name, price) {
+    var cartItems = document.querySelectorAll('.cart_items .item');
+    cartItems.forEach(item => {
+        var itemName = item.querySelector('p:nth-child(1)').textContent;
+        var itemPrice = item.querySelector('p:nth-child(2)').textContent;
+        if (itemName === name && itemPrice === price + ' руб') {
+            item.remove();
+        }
+    });
 }
 
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var contentBlock = document.getElementById('flowercontentBlock');
-        var strella = document.querySelector('.strella');
-        contentBlock.classList.toggle('hidden');
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    var contentBlockflower = document.getElementById('flowercontentBlock');
+    var contentBlockgreenery = document.getElementById('greenerycontentBlock');
+    var contentBlockpackaging = document.getElementById('packaingcontentBlock');
+    var strella = document.querySelector('.strella');
+    contentBlockflower.classList.toggle('hidden');
+    contentBlockgreenery.classList.toggle('hidden');
+    contentBlockpackaging.classList.toggle('hidden');
+});
+
 
     
 

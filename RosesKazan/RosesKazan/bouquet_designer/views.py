@@ -7,10 +7,10 @@ from main.forms import SearchForm
 
 def create_bouquet(request):
     flowers = Flower_design.objects.all()
-
-
+    greenerys = Greenery_design.objects.all()
+    packaging = Packaging.objects.all()
     form = SearchForm()
-    return render(request, 'bouquet_designer.html', {'form': form, 'flowers': flowers})
+    return render(request, 'bouquet_designer.html', {'form': form, 'flowers': flowers,'packaging': packaging, 'greenerys': greenerys})
 
 def get_flower_image(request, flower_id):
     flower = get_object_or_404(Flower_design, pk=flower_id)
