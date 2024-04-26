@@ -20,7 +20,7 @@
 .total{
     position:absolute;
     width: 40vh;
-    height: 60vh;
+    
     margin-left: 110vh;
     /* background-color: rgb(243, 243, 243); */
     box-shadow: 1px 1px 3px 1px  rgb(202, 202, 202);
@@ -266,11 +266,48 @@
 }
 
 .package_block img{
-    width: 15vh;
-    border-radius: 3vh;
+    width: 16vh;
+    border-radius: 2vh;
 }
 .package_block{
     width: 16vh;
     /* border: 1px solid #eb5bb1;
     border-radius: 2vh; */
+}
+
+.button_successfully{
+    height: 6vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3vh;
+}
+
+.button_suc{
+    width: 60%;
+    height: 6vh;
+    background-color: #eb5bb1;
+    color: white;
+    border: none;
+    border-radius: 2vh;
+    font-family: Inter;
+    font-size: 2vh;
+    font-weight: 600;
+    cursor: pointer;
+}
+.button_suc:active {
+    transform: scale(0.95); /* Уменьшение размера кнопки на 5% при нажатии */
+}
+
+
+.button_inaccessible{
+    width: 60%;
+    height: 6vh;
+    background-color: #757575;
+    color: white;
+    border: none;
+    border-radius: 2vh;
+    font-family: Inter;
+    font-size: 2vh;
+    font-weight: 600;
 }

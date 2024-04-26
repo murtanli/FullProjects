@@ -73,8 +73,10 @@
             <div class="cart">
                 <p class="cart_title">Состав букета</p>
                 <div class="cart_items">
-
                 </div>
+            </div>
+            <div class="button_successfully">
+                <button  id="button_save" class="button_inaccessible">Добавить в корзину</button>
             </div>
         </div>
     </div>
@@ -118,7 +120,6 @@ function handleClick_pk(event) {
     var packageId = packageBlock.dataset.packageId;
     var packageprice = packageBlock.dataset.packagePrice;
 
-
     if (button.innerText == "Удалить"){
         var index = selectedPackade.indexOf(packageId);
         packageBlock.classList.remove('selected');
@@ -144,6 +145,7 @@ function handleClick_pk(event) {
         }
         console.log(selectedPackade);
     }
+
 }
 
 
@@ -178,7 +180,6 @@ function handleClick_gr(event) {
 
     var greeneryId = greeneryBlock.dataset.greeneryId;
     var greeneryprice = greeneryBlock.dataset.greeneryPrice;
-
 
     if (button.innerText == "Удалить"){
         var index = selectedGreenery.indexOf(greeneryId);
@@ -239,7 +240,6 @@ function handleClick(event) {
     var flowerId = flowerBlock.dataset.flowerId;
     var flowerprice = flowerBlock.dataset.flowerPrice;
 
-
     if (button.innerText == "Удалить"){
         var index = selectedFlowerIds.indexOf(flowerId);
         flowerBlock.classList.remove('selected');
@@ -265,6 +265,7 @@ function handleClick(event) {
         }
         console.log(selectedFlowerIds);
     }
+    enable_button()
 }
 
 function plus_sumfunc(num) {
@@ -312,6 +313,65 @@ document.addEventListener('DOMContentLoaded', function() {
     contentBlockpackaging.classList.toggle('hidden');
 });
 
+function enable_button() {
+    var button = document.getElementById('button_save');
+
+    if (selectedFlowerIds.length > 0) {
+        button.removeAttribute('disabled');
+        button.classList.remove('button_inaccessible');
+        button.classList.add('button_suc');
+        button.addEventListener("click", function(){
+            save_bouquet();
+        });
+    } else {
+        button.setAttribute('disabled', true);
+        button.classList.remove('button_suc');
+        button.classList.add('button_inaccessible');
+    }
+}
+
+
+// var selectedFlowerIds = [];
+//     var selectedGreenery = [];
+//     var selectedPackade = [];
+function save_bouquet(){
+    var csrftoken = getCookie('csrftoken');
+    console.log(csrftoken);
+    $.ajax({
+    url: '/bouquet_designer/save_created_bouquet/',
+    type: 'POST',
+    headers: {
+        'X-CSRFToken': csrftoken
+    },
+    data: {
+        'selectedFlowerIds': JSON.stringify(selectedFlowerIds),
+        'selectedGreenery': JSON.stringify(selectedGreenery),
+        'selectedPackade': JSON.stringify(selectedPackade),
+    },
+    success: function(response) {
+        console.log('Запрос успешно отправлен! Ответ сервера:', response);
+        window.location.href = '/';
+    },
+    error: function(xhr, errmsg, err) {
+        console.log('Ошибка при отправке запроса:', xhr.status + ': ' + xhr.responseText);
+    }
+});
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+}
 
     
 

@@ -35,3 +35,14 @@ def get_flowers_obj(request):
     # Преобразуйте queryset в список словарей, чтобы его можно было сериализовать в JSON
     flowers_data = list(flowers.values())
     return JsonResponse({'flowers': flowers_data})
+
+def save_created_bouquet(request):
+
+    if request.method == 'POST':
+        selectedFlowerIds = request.POST.get('selectedFlowerIds')
+        selectedGreenery = request.POST.get('selectedGreenery')
+        selectedPackade = request.POST.get('selectedPackade')
+
+
+        print(f'{selectedFlowerIds} \n {selectedGreenery} \n {selectedPackade}')
+        return сообщение

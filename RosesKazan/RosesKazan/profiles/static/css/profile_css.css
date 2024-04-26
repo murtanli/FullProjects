@@ -106,18 +106,20 @@
 }
 .orders{
     width: 100%;
-    border: 1px solid rgb(178, 178, 178);
+    /* border: 1px solid rgb(178, 178, 178); */
     border-radius: 1vh;
 
 }
 .order{
-    border-top: 1px solid rgb(178, 178, 178);
+    /* border-top: 1px solid rgb(178, 178, 178);
     border-top-left-radius: 1vh;
     border-top-right-radius: 1vh;
-    border-bottom: 1px solid rgb(178, 178, 178);
+    border-bottom: 1px solid rgb(178, 178, 178); */
     margin-bottom: 10vh;
-    border-bottom-left-radius: 1vh;
-    border-bottom-right-radius: 1vh;
+    /* border-bottom-left-radius: 1vh;
+    border-bottom-right-radius: 1vh; */
+    border: 0.2vh solid rgb(178, 178, 178);
+    border-radius: 1vh;
 }
 .title_order{
     width: 100%;
