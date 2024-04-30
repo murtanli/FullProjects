@@ -311,3 +311,14 @@
     font-size: 2vh;
     font-weight: 600;
 }
+.button_n_auth{
+    width: 60%;
+    height: 6vh;
+    background-color: #757575;
+    color: white;
+    border: none;
+    border-radius: 2vh;
+    font-family: Inter;
+    font-size: 1.5vh;
+    font-weight: 600;
+}

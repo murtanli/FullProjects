@@ -45,7 +45,7 @@
                     
                     <a href="{% url 'profile' %}">
                         <img class="links_block_img2" src="{% static 'images/profile_icon.png' %}" alt="">
-                        <a href="{% url 'logout_view' %}">{{ request.user }}</a>
+                        <a href="{% url 'logout_view' %}" class="logout">Выйти с аккаунта</a>
                     </a>
                 {% else %}
                     <a href="{% url 'log_in_page' %}">

@@ -11,11 +11,9 @@ def profile_page(request):
         orders = Orders.objects.filter(profile=profile)
         cart_item_bouquets = []
         orders_with_flowers = []
-        message_empty = ''
+
         for order in orders:
             bouquets = Bouquet.objects.filter(order=order)
-
-
 
             for item in bouquets:
                 flowers = item.flowers.all()
@@ -72,6 +70,11 @@ def profile_page(request):
 
     if not profile.name or not profile.lastname or not profile.address:
         message = 'Заполните все поля!'
+        if profile.address:
+            profile_info = {
+                'address': profile.address,
+            }
+            return render(request, 'profile.html', {'message': message, 'email': request.user.email, 'form': form, 'orders_with_flowers': orders_with_flowers, 'message_hist': message, 'message_empty': message_empty,'profile_info': profile_info})
         return render(request, 'profile.html', {'message': message, 'email': request.user.email, 'form': form, 'orders_with_flowers': orders_with_flowers, 'message_hist': message, 'message_empty': message_empty})
     else:
         # Поля профиля заполнены, показываем данные профиля

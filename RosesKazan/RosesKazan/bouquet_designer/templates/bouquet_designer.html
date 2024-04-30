@@ -76,7 +76,11 @@
                 </div>
             </div>
             <div class="button_successfully">
-                <button  id="button_save" class="button_inaccessible">Добавить в корзину</button>
+                {% if request.user.is_authenticated %}
+                    <button  id="button_save" class="button_inaccessible">Добавить в корзину</button>
+                {% else %}
+                    <button class="button_n_auth">Зарегестрируйтесь чтобы добавить в корзину</button>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -271,3 +271,9 @@ footer {
 }
 
 
+.logout{
+    font-family: Inter;
+    font-size: 2vh;
+    color: black;
+    margin-top: 1vh;
+}
