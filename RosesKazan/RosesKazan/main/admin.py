@@ -7,7 +7,7 @@ from .models import *
 
 @admin.register(CartItem)
 class CartItemAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'profile', 'flower', 'quantity')
+    list_display = ('pk', 'profile','bouquet', 'flower', 'quantity')
 
 
 @admin.register(Discount)
@@ -52,7 +52,7 @@ class StocksAdmin(admin.ModelAdmin):
 
 @admin.register(OrderFlower)
 class OrderFlowerAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'flower', 'quantity')
+    list_display = ('pk','order', 'flower', 'quantity')
 
 
 @admin.register(Flower_design)
@@ -98,4 +98,17 @@ class PackagingAdmin(admin.ModelAdmin):
 
 @admin.register(Bouquet)
 class BouquetAdmin(admin.ModelAdmin):
-    list_display = ('pk',)
+    list_display = ('pk','order', 'display_flowers', 'display_greenery', 'display_packaging', 'total_price')
+
+    def display_flowers(self, obj):
+        return ", ".join([flower.name for flower in obj.flowers.all()])
+
+    def display_greenery(self, obj):
+        return ", ".join([greenery.name for greenery in obj.greenery.all()])
+
+    def display_packaging(self, obj):
+        return obj.packaging.name if obj.packaging else None
+
+    display_flowers.short_description = 'Flowers'
+    display_greenery.short_description = 'Greenery'
+    display_packaging.short_description = 'Packaging'

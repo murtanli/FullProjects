@@ -73,6 +73,7 @@
                             </div>
                         </div>
                         <div class="order_flowers">
+                    
                             {% for flower in order_with_flowers.flowers %}
                             <div class="flower">
                                 <img width="100vh" src="{% url 'get_flower_image' flower_id=flower.flower.id %}" alt="Flower Image">
@@ -80,16 +81,42 @@
                                 <p>| Количество - {{ flower.quantity }}</p>
                             </div>
                             {% endfor %}
+                            {% if order_with_flowers.cart_item_bouquets %}
+                                {% for item in order_with_flowers.cart_item_bouquets %}
+                                    {% if item.order == order_with_flowers.order %}
+                                        {% for flower in item.flowers %}
+                                            <div class="flower">
+                                                <img width="100vh" src="{% url 'get_flower_image_design' flower_id=flower.id %}" alt="Flower Image">
+                                                <p>{{ flower.name }}</p>
+                                                <p>| Количество - 15 штук</p>
+                                            </div>
+                                        {% endfor %}
+                                        {% for greenery in item.greenerys %}
+                                            <div class="flower">
+                                                <img width="100vh" src="{% url 'get_greenery_image_design' greenery_id=greenery.id %}" alt="Flower Image">
+                                                <p>{{ greenery.name }}</p>
+                                                <p>| Количество - 1 штука</p>
+                                            </div>
+                                        {% endfor %}
+                                        {% if item.packaging %}
+                                            <div class="flower">
+                                                <img width="100vh" src="{% url 'get_packaging_image_design' packaging_id=item.packaging.id %}" alt="Flower Image">
+                                                <p>{{ item.packaging.name }}</p>
+                                                <p>| Количество - 1 штука</p>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                             </ul>
                         </div>
                     </div>
                 {% endif %}
             {% endfor %}
-        {% else %}
-            <div class="empty_orders">
-                <p>Заказов нет, сделайте первый заказ !</p>
-            </div>
         {% endif %}
+        <div class="empty_orders">
+            <p>{{ message_empty }}</p>
+        </div>
         </div>
     </div>
 
@@ -135,6 +162,33 @@
                                             <p>| Количество - {{ flower.quantity }}</p>
                                         </div>
                                     {% endfor %}
+                                    {% if order_with_flowers.cart_item_bouquets %}
+                                    {% for item in order_with_flowers.cart_item_bouquets %}
+                                        {% if item.order == order_with_flowers.order %}
+                                            {% for flower in item.flowers %}
+                                                <div class="flower">
+                                                    <img width="100vh" src="{% url 'get_flower_image_design' flower_id=flower.id %}" alt="Flower Image">
+                                                    <p>{{ flower.name }}</p>
+                                                    <p>| Количество - 15 штук</p>
+                                                </div>
+                                            {% endfor %}
+                                            {% for greenery in item.greenerys %}
+                                                <div class="flower">
+                                                    <img width="100vh" src="{% url 'get_greenery_image_design' greenery_id=greenery.id %}" alt="Flower Image">
+                                                    <p>{{ greenery.name }}</p>
+                                                    <p>| Количество - 1 штука</p>
+                                                </div>
+                                            {% endfor %}
+                                            {% if item.packaging %}
+                                                <div class="flower">
+                                                    <img width="100vh" src="{% url 'get_packaging_image_design' packaging_id=item.packaging.id %}" alt="Flower Image">
+                                                    <p>{{ item.packaging.name }}</p>
+                                                    <p>| Количество - 1 штука</p>
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                                 </div>
                             </div>
                     {% endif %}

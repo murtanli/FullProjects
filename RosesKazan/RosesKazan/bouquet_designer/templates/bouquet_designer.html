@@ -87,7 +87,7 @@
     var sum = 0
     var selectedFlowerIds = [];
     var selectedGreenery = [];
-    var selectedPackade = [];
+    var selectedPackage = [];
 //packaging block
 function toggleBlockVisibility_package() {
     var contentBlock = document.getElementById('packaingcontentBlock');
@@ -121,20 +121,20 @@ function handleClick_pk(event) {
     var packageprice = packageBlock.dataset.packagePrice;
 
     if (button.innerText == "Удалить"){
-        var index = selectedPackade.indexOf(packageId);
+        var index = selectedPackage.indexOf(packageId);
         packageBlock.classList.remove('selected');
         button.classList.remove('selected_button');
         button.classList.add('button_text');
         button.innerText = "Выбрать";
-        selectedPackade.splice(index, 1);
-        console.log(selectedPackade);
+        selectedPackage.splice(index, 1);
+        console.log(selectedPackage);
         minus_sumfunc(packageprice);
         del_item(name, packageprice);
 
     } else {
-        var index = selectedPackade.indexOf(packageId);
-        if (selectedPackade.length != 1){
-            selectedPackade.push(packageId);
+        var index = selectedPackage.indexOf(packageId);
+        if (selectedPackage.length != 1){
+            selectedPackage.push(packageId);
             packageBlock.classList.add('selected');
             button.classList.add('selected_button');
             button.innerText = "Удалить";
@@ -143,7 +143,7 @@ function handleClick_pk(event) {
         } else {
             alert('Добавленно максимально количество украшений')
         }
-        console.log(selectedPackade);
+        console.log(selectedPackage);
     }
 
 }
@@ -202,7 +202,7 @@ function handleClick_gr(event) {
             add_item(name, greeneryprice);
             plus_sumfunc(greeneryprice);
         } else {
-            alert('Добавленно максимально количество украшений')
+            alert('Добавленно максимально количество зелени')
         }
         console.log(selectedGreenery);
     }
@@ -321,7 +321,7 @@ function enable_button() {
         button.classList.remove('button_inaccessible');
         button.classList.add('button_suc');
         button.addEventListener("click", function(){
-            save_bouquet();
+            
         });
     } else {
         button.setAttribute('disabled', true);
@@ -330,10 +330,14 @@ function enable_button() {
     }
 }
 
+var button_submit = document.getElementById('button_save');
+button_submit.addEventListener('click', function(){
+    save_bouquet();
+});
 
 // var selectedFlowerIds = [];
 //     var selectedGreenery = [];
-//     var selectedPackade = [];
+//     var selectedPackage = [];
 function save_bouquet(){
     var csrftoken = getCookie('csrftoken');
     console.log(csrftoken);
@@ -346,7 +350,7 @@ function save_bouquet(){
     data: {
         'selectedFlowerIds': JSON.stringify(selectedFlowerIds),
         'selectedGreenery': JSON.stringify(selectedGreenery),
-        'selectedPackade': JSON.stringify(selectedPackade),
+        'selectedPackage': JSON.stringify(selectedPackage)
     },
     success: function(response) {
         console.log('Запрос успешно отправлен! Ответ сервера:', response);

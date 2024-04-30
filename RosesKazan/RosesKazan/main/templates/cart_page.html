@@ -10,7 +10,7 @@
 </head>
 
 <div id="cart_blocks" class="cart_blocks">
-    {% if cart_items %}
+    {% if cart_items or bouquets%}
     <div class="cart_block">
         <div class="title">
             <p>Корзина</p>
@@ -31,6 +31,60 @@
                         <p>Сумма</p>
                     </div>
                 </div>
+                    {% for item in bouquets %}
+                        {% for flower in item.flowers %}
+                            <div class="cart_bouquets_block">
+                                <div class="name_flower_img">
+                                    <img class="img_flower" src="{% url 'get_flower_image_design' flower_id=flower.id %}" alt="">
+                                    <p>{{flower.name}}</p>
+                                </div>
+                                <div class="price_flower">
+                                    <p class="price_num">{{ flower.price|spacecomma }} руб</p>
+                                </div>
+                                <div class="amount_flowers">
+                                    <p>Количество 15 штук</p>
+                                </div>
+                                <div class="sum">
+                                    <p class="sum_text">{{ flower.price }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% for greenery in item.greenerys %}
+                            <div class="cart_bouquets_block">
+                                <div class="name_flower_img">
+                                    <img class="img_flower" src="{% url 'get_greenery_image_design' greenery_id=greenery.id %}" alt="">
+                                    <p>{{greenery.name}}</p>
+                                </div>
+                                <div class="price_flower">
+                                    <p class="price_num">{{ greenery.price|spacecomma }} руб</p>
+                                </div>
+                                <div class="amount_flowers">
+                                    <p>-</p>
+                                </div>
+                                <div class="sum">
+                                    <p class="sum_text">{{ greenery.price }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% if item.packaging %}
+                            <div class="cart_bouquets_block">
+                                <div class="name_flower_img">
+                                    <img class="img_flower" src="{% url 'get_packaging_image_design' packaging_id=item.packaging.id %}" alt="">
+                                    <p>{{item.packaging.name}}</p>
+                                </div>
+                                <div class="price_flower">
+                                    <p class="price_num">{{ item.packaging.price|spacecomma }} руб</p>
+                                </div>
+                                <div class="amount_flowers">
+                                    <p>-</p>
+                                </div>
+                                <div class="sum">
+                                    <p class="sum_text">{{ item.packaging.price }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="line"></div>
+                    {% endfor %}
                     {% for item in cart_items %}
                         {% if item.flower.id in disc_flowers_id %}
                             <div class="cart_flower_block">
@@ -134,25 +188,33 @@ var orderForm = document.getElementById('order-form');
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    var blocks = document.querySelectorAll('.cart_bouquets_block');
+    var total_sum = 0;
+    blocks.forEach(function(block) {
+        var price = block.querySelector('.price_num')
+        total_sum += parseFloat((price.textContent.replace(/\s+/g, '').replace(' руб', '')));
+        console.log(total_sum);
+        var formattedPrice = total_sum.toLocaleString('ru-RU');
+        document.getElementById('total_sum').textContent = 'Общая сумма: ' + formattedPrice + ' руб';
+    })
 
     var quantityBlocks = document.querySelectorAll('.button_block_add');
-    var totalPrice = 0; // Объявляем переменную вне функции
+    var totalPrice = 0 + total_sum; // Объявляем переменную вне функции
 
     quantityBlocks.forEach(function(block) {
-
+        
         var decreaseButton = block.querySelector('.decrease');
         var increaseButton = block.querySelector('.increase');
         var quantityInput = block.querySelector('.quantity');
         var sumText = block.parentElement.nextElementSibling.querySelector('.sum_text');
         var priceNumText = block.parentElement.previousElementSibling.querySelector('.price_num');
         var priceNum = parseFloat(priceNumText.textContent.replace(/\s+/g, '').replace(' руб', ''));
-
+        console.log(priceNum)
+        
         // Функция для обновления суммы и сохранения количества в input
         function updateSum() {
             var currentValue = parseInt(quantityInput.value);
             //var sum = priceNum * currentValue
-            console.log(priceNum);
-            console.log(currentValue);
             var sum = priceNum
             if (currentValue < 100 && currentValue > 0){
                 num = priceNum * currentValue;
@@ -162,7 +224,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 sumText.textContent = '0 руб';
             }
             totalPrice += sum; // Обновляем общую сумму без перезаписи
-            console.log(totalPrice)
             var formattedPrice = totalPrice.toLocaleString('ru-RU');
             document.getElementById('total_sum').textContent = 'Общая сумма: ' + formattedPrice + ' руб';
             // Сохраняем текущее количество в input
@@ -179,7 +240,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 sumText.textContent = '0 руб';
             }
             totalPrice -= sum; // Обновляем общую сумму без перезаписи
-            console.log(totalPrice)
             var formattedPrice = totalPrice.toLocaleString('ru-RU');
             document.getElementById('total_sum').textContent = 'Общая сумма: ' + formattedPrice + ' руб';
             // Сохраняем текущее количество в input

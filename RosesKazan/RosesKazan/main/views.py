@@ -23,12 +23,17 @@ def main_page(request):
     disc_flowers = [discount.flower for discount in discounts]
 
     cart_item_ids = []
-
+    cart_item_bouquets = []
     if request.user.is_authenticated:
         profile = Profile.objects.filter(user=request.user).first()  # Получить первый профиль или None
         if profile:
             all_cart_items = CartItem.objects.filter(profile=profile)
-            cart_item_ids = [item.flower.id for item in all_cart_items]
+            for item in all_cart_items:
+                try:
+                    cart_item_ids.append(item.flower.id)
+                except:
+                    cart_item_bouquets.append(item.bouquet.id)
+            # cart_item_ids = [item.flower.id for item in all_cart_items]
         else:
             cart_item_ids = []  # Пользователь не имеет профиля или корзины
     else:
@@ -121,11 +126,34 @@ def del_flower(request):
         return redirect('cart_page')
 
 def cart_page(request):
+    cart_item_ids = []
+    cart_item_bouquets = []
     if request.user.is_authenticated:
         profile = Profile.objects.filter(user=request.user).first()  # Получить первый профиль или None
         if profile:
+            # all_cart_items = CartItem.objects.filter(profile=profile)
+            # cart_item_ids = [item.flower.id for item in all_cart_items]
             all_cart_items = CartItem.objects.filter(profile=profile)
-            cart_item_ids = [item.flower.id for item in all_cart_items]
+            for item in all_cart_items:
+                if item.flower != None:
+                    cart_item_ids.append(item)
+                else:
+                    bouquet = Bouquet.objects.get(id=item.bouquet.id)
+                    flowers = bouquet.flowers.all()
+                    greenery = bouquet.greenery.all()
+                    try:
+                        packaging = bouquet.packaging
+                    except:
+                        packaging = None
+                    total_price = bouquet.total_price
+
+                    cart_bouquet = {
+                        'flowers': flowers,
+                        'greenerys': greenery,
+                        'packaging': packaging,
+                        'total_price': total_price
+                    }
+                    cart_item_bouquets.append(cart_bouquet)
         else:
             cart_item_ids = []  # Пользователь не имеет профиля или корзины
     else:
@@ -152,9 +180,10 @@ def cart_page(request):
             form = SearchForm()
     return render(request, "cart_page.html", {
         'form': form,
-        'cart_items': all_cart_items,
+        'cart_items': cart_item_ids,
         'discounts': discounts,
         'disc_flowers_id': disc_flowers,
+        'bouquets': cart_item_bouquets,
     })
 
 def place_order(request):
@@ -211,6 +240,22 @@ def place_order(request):
                 if not Orders.objects.filter(order_number=order_number).exists():
                     unique_order_number = True
 
+            us_cart = CartItem.objects.filter(profile=profile)
+
+            for item in us_cart:
+                if item.bouquet is not None:
+                    bouquet = item.bouquet
+                    flowers = bouquet.flowers.all()
+                    greenery = bouquet.greenery.all()
+                    packaging = bouquet.packaging
+                    for flower in flowers:
+                        total_price += flower.price
+                    if greenery is not None:
+                        for greenery in greenery:
+                            total_price += greenery.price
+                    if packaging is not None:
+                        total_price += packaging.price
+
             time_now = timezone.now()
             arrival_date = time_now + timedelta(minutes=60)
             order = Orders.objects.create(
@@ -223,8 +268,15 @@ def place_order(request):
                 address=profile.address
             )
 
-            us_cart = CartItem.objects.filter(profile=profile)
+
+
+
+
             for item in us_cart:
+                if item.bouquet is not None:
+                    bouquet_cart = item.bouquet
+                    bouquet_cart.order = order
+                    bouquet_cart.save()
                 item.delete()
 
             order.save()

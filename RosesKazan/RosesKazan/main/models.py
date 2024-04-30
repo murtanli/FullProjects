@@ -3,6 +3,24 @@ from django.contrib.auth.models import User
 
 
 
+class Flower_design(models.Model):
+    flower_image = models.ImageField(upload_to='flowers_design/', blank=True, null=True)
+    name = models.CharField(max_length=100)
+    quantity = models.IntegerField(null=True, blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+class Greenery_design(models.Model):
+    greenery_design_image = models.ImageField(upload_to='greenery_design/', blank=True, null=True)
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+class Packaging(models.Model):
+    packaging_design_image = models.ImageField(upload_to='packaging_design/', blank=True, null=True)
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+
+
 class Profile(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=20, null=True, blank=True)
@@ -38,7 +56,12 @@ class Orders(models.Model):
     price = models.FloatField(null=True, blank=True)
     address = models.CharField(max_length=100, null=True, blank=True)
     #flowers = models.ManyToManyField(Flowers, related_name='bookmarked_by', null=True, blank=True)
-
+class Bouquet(models.Model):
+    order = models.ForeignKey(Orders, null=True, blank=True, on_delete=models.CASCADE)
+    flowers = models.ManyToManyField(Flower_design, blank=True, null=True)
+    greenery = models.ManyToManyField(Greenery_design, blank=True, null=True)
+    packaging = models.ForeignKey(Packaging,on_delete=models.CASCADE, blank=True, null=True)
+    total_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 class OrderFlower(models.Model):
     order = models.ForeignKey(Orders, on_delete=models.CASCADE)
     flower = models.ForeignKey(Flowers, on_delete=models.CASCADE)
@@ -50,32 +73,8 @@ class Stocks(models.Model):
 
 class CartItem(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True, blank=True)
-    flower = models.ForeignKey(Flowers, on_delete=models.CASCADE)
+    flower = models.ForeignKey(Flowers, on_delete=models.CASCADE, null=True, blank=True)
+    bouquet = models.ForeignKey(Bouquet, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
 
 
-
-
-
-class Flower_design(models.Model):
-    flower_image = models.ImageField(upload_to='flowers_design/', blank=True, null=True)
-    name = models.CharField(max_length=100)
-    quantity = models.IntegerField(null=True, blank=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-
-class Greenery_design(models.Model):
-    greenery_design_image = models.ImageField(upload_to='greenery_design/', blank=True, null=True)
-    name = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-
-class Packaging(models.Model):
-    packaging_design_image = models.ImageField(upload_to='packaging_design/', blank=True, null=True)
-    name = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-
-class Bouquet(models.Model):
-    order = models.ForeignKey(Orders,on_delete=models.CASCADE, blank=True )
-    flowers = models.ManyToManyField(Flower_design, blank=True)
-    greenery = models.ManyToManyField(Greenery_design, blank=True)
-    packaging = models.ForeignKey(Packaging,on_delete=models.CASCADE, blank=True)
-    total_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
